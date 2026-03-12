@@ -34,9 +34,7 @@ export default function LetterCircle({ letters, onWordSubmit }: Props) {
   }
 
   function handleStart(index:number){
-
     setSelected([index])
-
   }
 
   function handleEnter(index:number){
@@ -70,7 +68,24 @@ export default function LetterCircle({ letters, onWordSubmit }: Props) {
   function handleTouchMove(e:React.TouchEvent){
 
     const touch = e.touches[0]
+
     updatePointer(touch.clientX,touch.clientY)
+
+    // MOBILE FIX
+    const element = document.elementFromPoint(
+      touch.clientX,
+      touch.clientY
+    ) as HTMLElement | null
+
+    if(!element) return
+
+    const index = element.getAttribute("data-index")
+
+    if(index !== null){
+
+      handleEnter(Number(index))
+
+    }
 
   }
 
@@ -186,6 +201,7 @@ export default function LetterCircle({ letters, onWordSubmit }: Props) {
 
           <div
             key={i}
+            data-index={i} 
             className={`circle-letter ${active?"active":""}`}
             style={{
               left:pos.x,
