@@ -164,7 +164,7 @@ body {
 .level-popup{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:linear-gradient(135deg,#4c7dff,#7f9fff);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -173,34 +173,33 @@ body {
 
 .popup-content{
   background:white;
-  padding:40px 60px;
-  border-radius:20px;
+  padding:50px 70px;
+  border-radius:25px;
   text-align:center;
-  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+
   animation:popupScale 0.4s ease;
 }
 
 .popup-content h2{
-  font-size:32px;
-  margin:10px 0;
+  font-size:36px;
+  margin:15px 0;
+  color:#4c7dff;
 }
 
 .popup-content p{
-  font-size:18px;
-  color:#555;
+  font-size:20px;
+  color:#666;
 }
 
 .trophy{
-  font-size:50px;
+  font-size:70px;
+  animation:bounce 1s infinite;
 }
 
-@keyframes popupScale{
-  from{
-    transform:scale(0.7);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
+@keyframes bounce{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+  100%{transform:translateY(0)}
 }

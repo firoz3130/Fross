@@ -17,19 +17,27 @@ export function generateLevel(letters: string[]) {
     return []
   }
 
+  // sort by length
   results.sort((a,b)=>a.length-b.length)
 
-  return results.slice(0,6)
+  // remove duplicates
+  const unique = [...new Set(results)]
 
+  return unique.slice(0,6)
 }
 
-function canBuild(word: string, letters: string[]) {
 
-  for (const l of word) {
+function canBuild(word:string, letters:string[]){
 
-    if (!letters.includes(l)) {
-      return false
-    }
+  const pool = [...letters]
+
+  for(const l of word){
+
+    const index = pool.indexOf(l)
+
+    if(index === -1) return false
+
+    pool.splice(index,1)
 
   }
 

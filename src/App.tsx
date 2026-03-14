@@ -20,6 +20,7 @@ function App() {
   const [solvedWords,setSolvedWords] = useState<string[]>([])
 
   const [showLevelComplete,setShowLevelComplete] = useState(false)
+  const [gameCompleted,setGameCompleted] = useState(false)
 
 
   useEffect(()=>{
@@ -34,26 +35,28 @@ function App() {
   },[letters])
 
 
-  function nextLevel(){
+function nextLevel(){
 
-    const next = levelIndex + 1
+  const next = levelIndex + 1
 
-    if(next >= LEVELS.length){
-      alert("🎉 You finished all levels!")
-      return
-    }
+  if(next >= LEVELS.length){
 
-    setShowLevelComplete(true)
-
-    setTimeout(()=>{
-
-      setLevelIndex(next)
-      setLetters(LEVELS[next])
-      setShowLevelComplete(false)
-
-    },1500)
+    setGameCompleted(true)
+    return
 
   }
+
+  setShowLevelComplete(true)
+
+  setTimeout(()=>{
+
+    setLevelIndex(next)
+    setLetters(LEVELS[next])
+    setShowLevelComplete(false)
+
+  },1500)
+
+}
 
 
 function handleWordSubmit(word:string){
@@ -83,7 +86,9 @@ function handleWordSubmit(word:string){
 
     <div className="game">
 
-      <h2>Level {levelIndex+1}</h2>
+      <h2>
+      Level {levelIndex+1} / {LEVELS.length}
+      </h2>
 
       {showLevelComplete && (
         <div className="level-popup">
@@ -95,6 +100,15 @@ function handleWordSubmit(word:string){
         </div>
       )}
 
+{gameCompleted && (
+  <div className="level-popup">
+    <div className="popup-content">
+      <div className="trophy">👑</div>
+      <h2>You Finished The Game!</h2>
+      <p>Congratulations Puzzle Master 🧠</p>
+    </div>
+  </div>
+)}
       <Board
         key={levelIndex}
         grid={puzzle.grid}

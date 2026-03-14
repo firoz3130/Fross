@@ -1,57 +1,58 @@
-win
-hen
-when
+WIN
+HEN
+WHEN
+HEW
 
-cat
-car
-care
-race
-trace
-react
+CAT
+CAR
+CARE
+RACE
+TRACE
+REACT
 
-tone
-stone
-note
-one
-son
+TONE
+STONE
+NOTE
+ONE
+SON
 
-brain
-rain
-ran
-bar
-rib
+BRAIN
+RAIN
+RAN
+BAR
+RIB
 
-plant
-plan
-ant
-tan
-lap
+PLANT
+PLAN
+ANT
+TAN
+LAP
 
-flame
-meal
-male
-leaf
-flea
+FLAME
+MEAL
+MALE
+LEAF
+FLEA
 
-dream
-read
-red
-ear
-arm
+DREAM
+READ
+RED
+EAR
+ARM
 
-cloud
-cold
-loud
-old
-cod
+CLOUD
+COLD
+LOUD
+OLD
+COD
 
-grass
-gas
-rag
-sag
+GRASS
+GAS
+RAG
+SAG
 
-start
-star
-arts
-rat
-tar
+START
+STAR
+ARTS
+RAT
+TAR
