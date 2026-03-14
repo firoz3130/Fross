@@ -160,3 +160,47 @@ body {
   }
 
 }
+
+.level-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.popup-content{
+  background:white;
+  padding:40px 60px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  animation:popupScale 0.4s ease;
+}
+
+.popup-content h2{
+  font-size:32px;
+  margin:10px 0;
+}
+
+.popup-content p{
+  font-size:18px;
+  color:#555;
+}
+
+.trophy{
+  font-size:50px;
+}
+
+@keyframes popupScale{
+  from{
+    transform:scale(0.7);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}

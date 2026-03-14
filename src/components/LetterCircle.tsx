@@ -112,7 +112,7 @@ export default function LetterCircle({ letters, onWordSubmit }: Props) {
 
     if(selected.length===0) return
 
-    const word = selected.map(i=>letters[i]).join("")
+    const word = selected.map(i=>letters[i]).join("").toUpperCase()
 
     const correct = onWordSubmit(word)
 
