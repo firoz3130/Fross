@@ -1,38 +1,74 @@
+html, body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #eef2f8;
+  margin: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
 }
 
 .game {
-  text-align: center;
+  width: 100%;
+  max-width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: space-between;
+
+  height: 100vh;
+  padding: 10px 0;
 }
 
 /* BOARD */
-
 .board {
-  margin-top: 40px;
+  margin-top: 10px;
+
+  width: 100%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex-grow: 1;
+  justify-content: center;
+
+  padding: 0 10px;
+  box-sizing: border-box;
+  transform-origin: top center;
+
 }
 
 .row {
   display: flex;
   justify-content: center;
+  flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
+  width: min(11vw, 48px);
+  height: min(11vw, 48px);
+
   border-radius: 10px;
   border: 2px solid #d6dbea;
-  margin: 5px;
+
+  margin: 3px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-weight: bold;
-  font-size: 22px;
+  font-size: min(5vw, 22px);
 
   background: white;
   color: #333;
@@ -48,33 +84,44 @@ body {
 
 .circle-container {
   position: relative;
-  margin: 60px auto 0;
+
+  width: 85vw;
+  max-width: 320px;
+
+  height: 85vw;
+  max-height: 320px;
+
+  margin-bottom: 20px;
+
   touch-action: none;
-  width:90vw;
-  max-width:320px;
-  height:320px;
 }
 
 .circle-letter {
   position: absolute;
   transform: translate(-50%, -50%);
 
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: clamp(55px, 16vw, 70px);
+  height: clamp(55px, 16vw, 70px);
 
+  border-radius: 50%;
   border: none;
 
   background: #4c7dff;
   color: white;
 
-  font-size: 26px;
+  font-size: clamp(20px, 6vw, 26px);
   font-weight: bold;
 
   cursor: pointer;
 
   box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-  user-select:none;
+  user-select: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
 }
 
 .current-word {
