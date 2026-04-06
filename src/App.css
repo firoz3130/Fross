@@ -9,9 +9,10 @@ body {
   background: #eef2f8;
   color: #1f2937;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .game {
@@ -24,7 +25,7 @@ body {
 
   justify-content: space-between;
 
-  height: 100vh;
+  min-height: 100vh;
   padding: 10px 0;
 }
 
@@ -110,6 +111,21 @@ button,
   margin-bottom: 20px;
 
   touch-action: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .circle-container {
+    width: 90vw;
+    max-width: 280px;
+    height: 90vw;
+    max-height: 280px;
+    margin-bottom: 15px;
+  }
+
+  .game {
+    padding: 5px 0;
+  }
 }
 
 .circle-letter {
