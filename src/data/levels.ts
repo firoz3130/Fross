@@ -1,12 +1,17 @@
 export const LEVELS = [
-  ["W","E","H","N","I"],
-  ["C","A","T","R","E"],
-  ["S","T","O","N","E"],
-  ["B","R","A","I","N"],
-  ["P","L","A","N","T"],
-  ["F","L","A","M","E"],
-  ["D","R","E","A","M"],
-  ["C","L","O","U","D"],
-  ["G","R","A","S","S"],
-  ["S","T","A","R","T"]
-]
+	{ letters: ["W", "E", "H", "N", "I"], theme: "default" },
+	{ letters: ["C", "A", "T", "R", "E"], theme: "default" },
+	{ letters: ["S", "T", "O", "N", "E"], theme: "space" },
+	{ letters: ["B", "R", "A", "I", "N"], theme: "space" },
+	{ letters: ["P", "L", "A", "N", "T"], theme: "ocean" },
+	{ letters: ["F", "L", "A", "M", "E"], theme: "ocean" },
+	{ letters: ["D", "R", "E", "A", "M"], theme: "fantasy" },
+	{ letters: ["C", "L", "O", "U", "D"], theme: "fantasy" },
+	{ letters: ["G", "R", "A", "S", "S"], theme: "fantasy" },
+	{ letters: ["S", "T", "A", "R", "T"], theme: "fantasy" },
+	{ letters: ["H", "O", "U", "S", "E"], theme: "mystic" },
+	{ letters: ["M", "O", "U", "N", "T"], theme: "mystic" },
+	{ letters: ["F", "I", "R", "E", "S"], theme: "mystic" },
+	{ letters: ["W", "I", "N", "D", "S"], theme: "mystic" },
+	{ letters: ["L", "I", "G", "H", "T"], theme: "mystic" },
+];

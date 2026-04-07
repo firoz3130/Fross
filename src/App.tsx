@@ -8,15 +8,21 @@ import { generateGrid } from "./logic/generateGrid";
 import { generateLevel } from "./logic/generateLevel";
 
 import { LEVELS } from "./data/levels";
+import { THEMES } from "./data/themes";
 import HintButton from "./components/HintButton"
 import LevelMap from "./components/LevelMap"
 import { sounds } from "./logic/sound";
+import NumberGuessGame from "./components/NumberGuessGame";
+
+type View = 'menu' | 'crossword' | 'numberGuess';
 
 function App() {
+  const [currentView, setCurrentView] = useState<View>('menu');
 
   const [levelIndex, setLevelIndex] = useState(0)
   const [maxUnlocked, setMaxUnlocked] = useState(0)
-  const [letters, setLetters] = useState(LEVELS[0])
+  const [currentTheme, setCurrentTheme] = useState(THEMES[0])
+  const [letters, setLetters] = useState(LEVELS[0].letters)
 
   const [words, setWords] = useState<string[]>([])
   const [puzzle, setPuzzle] = useState<any>(null)
@@ -29,15 +35,19 @@ function App() {
 
 
   useEffect(() => {
+    const levelData = LEVELS[levelIndex]
+    const theme = THEMES.find(t => t.id === levelData.theme) || THEMES[0]
+    setCurrentTheme(theme)
+    setLetters(levelData.letters)
 
-    const newWords = generateLevel(letters)
+    const newWords = generateLevel(levelData.letters)
     const newPuzzle = generateGrid(newWords)
 
     setWords(newWords)
     setPuzzle(newPuzzle)
     setSolvedWords([])
 
-  }, [letters])
+  }, [levelIndex])
 
 
   function useHint() {
@@ -67,7 +77,7 @@ function App() {
 
     if (levelIndex < maxUnlocked) {
       setLevelIndex(maxUnlocked)
-      setLetters(LEVELS[maxUnlocked])
+      setLetters(LEVELS[maxUnlocked].letters)
       return
     }
 
@@ -86,7 +96,7 @@ function App() {
 
       setLevelIndex(next)
       setMaxUnlocked(next)
-      setLetters(LEVELS[next])
+      setLetters(LEVELS[next].letters)
       setShowLevelComplete(false)
 
     }, 1500)
@@ -116,10 +126,39 @@ function App() {
 
   if (!puzzle) return null
 
+  if (currentView === 'menu') {
+    return (
+      <div className="menu">
+        <h1>🎮 Game Hub</h1>
+        <div className="menu-options">
+          <button className="menu-btn crossword-btn" onClick={() => setCurrentView('crossword')}>
+            🧩 Crossword Puzzle
+          </button>
+          <button className="menu-btn number-btn" onClick={() => setCurrentView('numberGuess')}>
+            🔢 Number Guess Game
+          </button>
+        </div>
+      </div>
+    );
+  }
 
+  if (currentView === 'numberGuess') {
+    return <NumberGuessGame onBack={() => setCurrentView('menu')} />;
+  }
+
+  // Crossword view
   return (
 
-    <div className="game">
+    <div className={`game ${currentTheme.animationClass || ''}`} style={{
+      '--theme-bg': currentTheme.background,
+      '--theme-primary': currentTheme.primaryColor,
+      '--theme-secondary': currentTheme.secondaryColor,
+      '--theme-accent': currentTheme.accentColor,
+    } as React.CSSProperties}>
+
+      <button className="back-to-menu-btn" onClick={() => setCurrentView('menu')}>
+        ← Back to Menu
+      </button>
 
       <h2>
         Level {levelIndex + 1} / {LEVELS.length}
@@ -160,9 +199,11 @@ function App() {
             total={LEVELS.length}
             current={levelIndex}
             maxUnlocked={maxUnlocked}
+            currentTheme={currentTheme}
+            onThemeChange={setCurrentTheme}
             onSelect={(l) => {
               setLevelIndex(l)
-              setLetters(LEVELS[l])
+              setLetters(LEVELS[l].letters)
               setShowMap(false)
             }}
             onClose={() => setShowMap(false)}

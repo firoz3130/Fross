@@ -1,12 +1,16 @@
+import { THEMES } from "../data/themes";
+
 type Props = {
   total: number
   current: number
   onSelect: (level: number) => void
   onClose: () => void
   maxUnlocked: number
+  currentTheme: any
+  onThemeChange: (theme: any) => void
 }
 
-function LevelMap({ total, current, onSelect, onClose, maxUnlocked }: Props) {
+function LevelMap({ total, current, onSelect, onClose, maxUnlocked, currentTheme, onThemeChange }: Props) {
 
   const levels = Array.from({ length: total }, (_, i) => i)
 
@@ -24,6 +28,21 @@ function LevelMap({ total, current, onSelect, onClose, maxUnlocked }: Props) {
       <p className="level-map-note">
         Tap a previous or current level to review it. Future levels unlock after you finish the current round.
       </p>
+
+      <div className="theme-selector">
+        <h3>Theme</h3>
+        <div className="theme-buttons">
+          {THEMES.filter(t => t.unlockLevel <= maxUnlocked).map(theme => (
+            <button
+              key={theme.id}
+              className={`theme-btn ${currentTheme.id === theme.id ? 'active' : ''}`}
+              onClick={() => onThemeChange(theme)}
+            >
+              {theme.name}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="level-grid">
 
