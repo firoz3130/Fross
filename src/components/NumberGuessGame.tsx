@@ -26,6 +26,12 @@ type RoomData = {
     lastGuessBy: 1 | 2 | null;
     feedback: string;
     winner: 1 | 2 | null;
+    history: Array<{ player: string; guess: number; hint: string }>;
+    player1Wins: number;
+    player2Wins: number;
+    streak: number;
+    streakPlayer: 1 | 2 | null;
+    wrongGuessCount: number;
 };
 
 function generateRoomId() {
@@ -43,6 +49,8 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
     const [guess, setGuess] = useState("");
     const [error, setError] = useState("");
     const [status, setStatus] = useState("");
+    const [toast, setToast] = useState("");
+    const [showStreak, setShowStreak] = useState(false);
 
     useEffect(() => {
         if (!roomId) return;
@@ -87,7 +95,22 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             lastGuessBy: null,
             feedback: "Waiting for both players...",
             winner: null,
+            history: [],
+            player1Wins: 0,
+            player2Wins: 0,
+            streak: 0,
+            streakPlayer: null,
+            wrongGuessCount: 0,
         });
+
+        // Copy room code to clipboard
+        try {
+            await navigator.clipboard.writeText(id);
+            setToast("Room code copied! Share with your best friend. Have fun!");
+            setTimeout(() => setToast(""), 3000);
+        } catch (err) {
+            console.error("Failed to copy room code:", err);
+        }
 
         setRoomId(id);
         setPlayerNumber(1);
@@ -212,23 +235,61 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
         const nextPlayer = room.currentPlayer === 1 ? 2 : 1;
         let feedbackText = "";
         let winner: 1 | 2 | null = null;
+        let newHistory = [...room.history];
+        let newPlayer1Wins = room.player1Wins;
+        let newPlayer2Wins = room.player2Wins;
+        let newStreak = room.streak;
+        let newStreakPlayer = room.streakPlayer;
+        let newWrongGuessCount = room.wrongGuessCount;
 
         if (guessNum === target) {
             const winnerName = room.currentPlayer === 1 ? room.player1Name : room.player2Name;
             feedbackText = `${winnerName} guessed correctly!`;
             winner = room.currentPlayer;
-        } else if (guessNum < target) {
-            feedbackText = "Too low! Guess higher.";
+            if (winner === 1) newPlayer1Wins++;
+            else newPlayer2Wins++;
+            if (newStreakPlayer === winner) newStreak++;
+            else {
+                newStreak = 1;
+                newStreakPlayer = winner;
+            }
+            newWrongGuessCount = 0; // Reset on win
+            setShowStreak(true);
+            setTimeout(() => setShowStreak(false), 5000);
         } else {
-            feedbackText = "Too high! Guess lower.";
+            newWrongGuessCount++;
+            let hint = "";
+            if (newWrongGuessCount >= 3) {
+                const diff = Math.abs(guessNum - target);
+                if (diff <= 10) hint = " (Hot!)";
+                else if (diff <= 50) hint = " (Warm)";
+                else hint = " (Cold)";
+            }
+            if (guessNum < target) {
+                feedbackText = `Too low! Guess higher.${hint}`;
+            } else {
+                feedbackText = `Too high! Guess lower.${hint}`;
+            }
         }
+
+        newHistory.push({
+            player: room.currentPlayer === 1 ? room.player1Name : room.player2Name,
+            guess: guessNum,
+            hint: feedbackText
+        });
 
         await updateDoc(roomRef, {
             lastGuess: guessNum,
             lastGuessBy: room.currentPlayer,
             feedback: feedbackText,
             currentPlayer: winner ? room.currentPlayer : nextPlayer,
-            winner
+            winner,
+            history: newHistory,
+            player1Wins: newPlayer1Wins,
+            player2Wins: newPlayer2Wins,
+            streak: newStreak,
+            streakPlayer: newStreakPlayer,
+            wrongGuessCount: newWrongGuessCount
         });
 
         setGuess("");
@@ -249,6 +310,8 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             lastGuessBy: null,
             feedback: "Waiting for both players...",
             winner: null,
+            history: [],
+            wrongGuessCount: 0,
         });
 
         setSecret(null);
@@ -284,18 +347,22 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                     />
                 </div>
                 <div className="room-actions">
-                    <button className="start-btn" onClick={createRoom} disabled={!playerName.trim()}>
-                        Create Room
-                    </button>
-                    <div className="join-room">
-                        <input
-                            type="text"
-                            placeholder="Room code"
-                            value={joinCode}
-                            onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-                        />
-                        <button className="start-btn" onClick={joinRoom} disabled={!playerName.trim()}>
-                            Join Room
+                    <div className="action-card">
+                        <div className="join-room">
+                            <input
+                                type="text"
+                                placeholder="Room code"
+                                value={joinCode}
+                                onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                            />
+                            <button className="start-btn join-btn" onClick={joinRoom} disabled={!playerName.trim()}>
+                                Join Room
+                            </button>
+                        </div>
+                    </div>
+                    <div className="action-card">
+                        <button className="start-btn create-room-btn" onClick={createRoom} disabled={!playerName.trim()}>
+                            Create Room
                         </button>
                     </div>
                 </div>
@@ -326,16 +393,23 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
 
     const myReady = playerNumber === 1 ? room?.player1Ready : room?.player2Ready;
     const bothReady = room?.player1Ready && room?.player2Ready;
+    const isSecretValid = secret !== null && secret >= 0 && secret <= 100;
+    const guessNum = guess === "" ? NaN : Number(guess);
+    const isGuessValid = !Number.isNaN(guessNum) && guessNum >= 0 && guessNum <= 100;
 
     return (
         <div className="number-guess-game">
+            {toast && <div className="toast">{toast}</div>}
             <h1>Number Guess Game</h1>
             <div className="room-card">
                 <p><strong>Room Code:</strong> {roomId}</p>
                 <p><strong>You are:</strong> {playerName}</p>
                 <p><strong>Status:</strong> {room?.feedback || status}</p>
-                <p><strong>{room?.player1Name} ready:</strong> {room?.player1Ready ? "Yes" : "No"}</p>
-                <p><strong>{room?.player2Name} ready:</strong> {room?.player2Ready ? "Yes" : "No"}</p>
+                <p>{room?.player1Name} ready: {room?.player1Ready ? "Yes" : "No"} | Wins: {room?.player1Wins || 0}</p>
+                <p>{room?.player2Name} ready: {room?.player2Ready ? "Yes" : "No"} | Wins: {room?.player2Wins || 0}</p>
+                {room?.streak && room?.streakPlayer && showStreak && (
+                    <p className="streak">{room.streakPlayer === 1 ? room.player1Name : room.player2Name} is on a {room.streak}-round streak!</p>
+                )}
             </div>
 
             {!myReady && (
@@ -348,10 +422,17 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                         value={secret ?? ""}
                         onChange={(e) => {
                             const value = e.target.value;
-                            setSecret(value === "" ? null : parseInt(value));
+                            if (value === "") {
+                                setSecret(null);
+                                return;
+                            }
+                            const num = parseInt(value, 10);
+                            if (!Number.isNaN(num)) {
+                                setSecret(Math.min(100, Math.max(0, num)));
+                            }
                         }}
                     />
-                    <button className="start-btn" onClick={submitSecret}>
+                    <button className="start-btn" onClick={submitSecret} disabled={!isSecretValid}>
                         Save Secret
                     </button>
                 </div>
@@ -375,7 +456,7 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                                 onChange={(e) => setGuess(e.target.value)}
                                 onKeyPress={(e) => e.key === "Enter" && makeGuess()}
                             />
-                            <button className="start-btn" onClick={makeGuess}>
+                            <button className="start-btn" onClick={makeGuess} disabled={!isGuessValid}>
                                 Guess
                             </button>
                         </>
@@ -391,10 +472,26 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                 </p>
             )}
 
+            {room && room.history.length > 0 && (
+                <div className="round-history">
+                    <h3>Round History</h3>
+                    <ul>
+                        {room.history.slice(-5).map((entry, index) => (
+                            <li key={index}>{entry.player} guessed {entry.guess} → {entry.hint}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             {room?.winner && (
                 <div className="winner-banner">
-                    <h2>{room.winner === 1 ? room.player1Name : room.player2Name} wins!</h2>
-                    <p>{room.feedback}</p>
+                    <h2>{room.winner === playerNumber ? "YAY!! Guessing champion!" : "OOPPS... not this time."}</h2>
+                    <p>
+                        {room.winner === playerNumber
+                            ? `YAY!! You are a master at guessing. ${room.winner === 1 ? room.player1Name : room.player2Name} wins this round!`
+                            : `${room.winner === 1 ? room.player1Name : room.player2Name} had the golden guess. Keep your head up, the next round is yours.`}
+                    </p>
+                    <p className="winner-note">Your opponent may already be waiting for a rematch.</p>
                     <button className="start-btn" onClick={playAgain}>
                         Play Again
                     </button>
