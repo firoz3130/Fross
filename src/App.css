@@ -491,6 +491,25 @@ button,
   border-bottom: none;
 }
 
+.special-streak-popup {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: specialPulse 0.5s ease-in-out;
+}
+
+@keyframes specialPulse {
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 @media (max-width: 640px) {
   .number-guess-setup,
   .number-guess-game {

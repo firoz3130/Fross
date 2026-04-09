@@ -51,6 +51,8 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
     const [status, setStatus] = useState("");
     const [toast, setToast] = useState("");
     const [showStreak, setShowStreak] = useState(false);
+    const [showSpecialStreakPopup, setShowSpecialStreakPopup] = useState(false);
+    const [specialStreakMessage, setSpecialStreakMessage] = useState("");
 
     useEffect(() => {
         if (!roomId) return;
@@ -256,6 +258,15 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             newWrongGuessCount = 0; // Reset on win
             setShowStreak(true);
             setTimeout(() => setShowStreak(false), 5000);
+            if (newStreak >= 3) {
+                const messages = [
+                    "3 wins in a row—this is getting suspicious…",
+                    "You did it again. And again. And again. Wow."
+                ];
+                setSpecialStreakMessage(messages[Math.floor(Math.random() * messages.length)]);
+                setShowSpecialStreakPopup(true);
+                setTimeout(() => setShowSpecialStreakPopup(false), 5000);
+            }
         } else {
             newWrongGuessCount++;
             let hint = "";
@@ -492,9 +503,15 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                             : `${room.winner === 1 ? room.player1Name : room.player2Name} had the golden guess. Keep your head up, the next round is yours.`}
                     </p>
                     <p className="winner-note">Your opponent may already be waiting for a rematch.</p>
-                    <button className="start-btn" onClick={playAgain}>
-                        Play Again
-                    </button>
+                    {showSpecialStreakPopup ? (
+                        <div className="special-streak-popup">
+                            <p>{specialStreakMessage}</p>
+                        </div>
+                    ) : (
+                        <button className="start-btn" onClick={playAgain}>
+                            Play Again
+                        </button>
+                    )}
                 </div>
             )}
 
