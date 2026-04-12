@@ -130,7 +130,11 @@ function App() {
   if (currentView === 'menu') {
     return (
       <div className="menu">
-        <h1>🎮 Game Hub</h1>
+        <h1>🎮 Firos Creations</h1>
+        <div className="menu-quote">
+          <p>Whenever life feels overwhelming, stressed, come here, play a little, and unwind. This space was made for you , with Love.</p>
+          <span>~ F</span>
+        </div>
         <div className="menu-options">
           <button className="menu-btn crossword-btn" onClick={() => setCurrentView('crossword')}>
             🧩 Crossword Puzzle
