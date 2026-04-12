@@ -98,6 +98,16 @@ button,
   box-shadow: 0 12px 30px rgba(0,0,0,0.3);
 }
 
+.memory-btn {
+  background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+  color: #333;
+}
+
+.memory-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
 /* NUMBER GUESS GAME */
 .number-guess-setup,
 .number-guess-game {
@@ -537,6 +547,118 @@ button,
 
   .room-card {
     padding: 20px;
+  }
+}
+
+/* MEMORY MATCH GAME */
+.memory-match-setup,
+.memory-match-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.memory-match-setup h1,
+.memory-match-game h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 18px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.game-options {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+
+.option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.option-group label {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.option-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.option-group select:focus {
+  border-color: rgba(69, 170, 255, 0.9);
+  background: rgba(255,255,255,0.14);
+}
+
+.game-board {
+  margin: 20px 0;
+}
+
+.card-grid {
+  display: grid;
+  margin: 0 auto;
+}
+
+.memory-card {
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+}
+
+.memory-card.flipped {
+  transform: rotateY(0deg);
+}
+
+.memory-card.matched {
+  animation: matchPulse 0.6s ease-in-out;
+}
+
+@keyframes matchPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.start-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.final-scores {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+@media (max-width: 640px) {
+  .memory-match-setup,
+  .memory-match-game {
+    padding: 18px;
+  }
+
+  .card-grid {
+    gap: 4px !important;
+  }
+
+  .memory-card {
+    font-size: 0.9rem !important;
   }
 }
 

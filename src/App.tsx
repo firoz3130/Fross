@@ -13,8 +13,9 @@ import HintButton from "./components/HintButton"
 import LevelMap from "./components/LevelMap"
 import { sounds } from "./logic/sound";
 import NumberGuessGame from "./components/NumberGuessGame";
+import MemoryMatchGame from "./components/MemoryMatchGame";
 
-type View = 'menu' | 'crossword' | 'numberGuess';
+type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('menu');
@@ -137,6 +138,9 @@ function App() {
           <button className="menu-btn number-btn" onClick={() => setCurrentView('numberGuess')}>
             🔢 Number Guess Game
           </button>
+          <button className="menu-btn memory-btn" onClick={() => setCurrentView('memoryMatch')}>
+            🧠 Memory Match Challenge
+          </button>
         </div>
       </div>
     );
@@ -144,6 +148,10 @@ function App() {
 
   if (currentView === 'numberGuess') {
     return <NumberGuessGame onBack={() => setCurrentView('menu')} />;
+  }
+
+  if (currentView === 'memoryMatch') {
+    return <MemoryMatchGame onBack={() => setCurrentView('menu')} />;
   }
 
   // Crossword view
