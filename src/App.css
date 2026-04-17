@@ -108,6 +108,16 @@ button,
   box-shadow: 0 12px 30px rgba(0,0,0,0.3);
 }
 
+.scribbl-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.scribbl-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
 .menu-quote {
   width: min(680px, 100%);
   margin-bottom: 36px;
@@ -165,87 +175,213 @@ button,
   text-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-.name-input,
-.room-actions,
-.secret-inputs,
-.guess-section {
-  width: 100%;
-  max-width: 420px;
-}
-
-.name-input {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.name-input label,
-.secret-inputs label,
-.guess-section label {
-  font-weight: 700;
-  letter-spacing: 0.03em;
-}
-
-.name-input input,
-.join-room input,
-.secret-inputs input,
-.guess-section input {
-  width: 100%;
-  padding: 16px 18px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.08);
-  color: white;
-  font-size: 1rem;
-  outline: none;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-
-.name-input input::placeholder,
-.join-room input::placeholder {
-  color: rgba(255,255,255,0.65);
-}
-
-.name-input input:focus,
-.join-room input:focus,
-.secret-inputs input:focus,
-.guess-section input:focus {
-  border-color: rgba(69, 170, 255, 0.9);
-  background: rgba(255,255,255,0.14);
-}
-
-.secret-inputs {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.secret-inputs div {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 140px;
-}
-
-.room-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 28px;
-}
-
-.action-card {
-  flex: 1 1 220px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 18px;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.glow-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.glow-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.glow-text {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
+  to { text-shadow: 0 0 20px rgba(255, 215, 0, 1); }
+}
+
+.room-card {
+  margin-bottom: 20px;
+}
+
+.player-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.player-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.ready-status {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.wins {
+  font-size: 0.9rem;
+  color: #4CAF50;
+}
+
+.turn-indicator {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.waiting-text {
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.round-history {
+  max-width: 500px;
+}
+
+.round-history h3 {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.round-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.player {
+  font-weight: bold;
+  color: #81C784;
+}
+
+.guess {
+  flex: 1;
+  text-align: center;
+}
+
+.hint {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.winner-banner {
+  text-align: center;
+  max-width: 500px;
+}
+
+.winner-text {
+  color: #FFD700;
+  animation: celebrate 1s ease-in-out;
+}
+
+.loser-text {
+  color: #FF6B6B;
+}
+
+.winner-message {
+  margin: 12px 0;
+  font-size: 1.1rem;
+}
+
+.rematch-note {
+  font-style: italic;
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+.special-streak-popup {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #333;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 16px 0;
+  font-weight: bold;
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+@media (max-width: 640px) {
+  .number-guess-setup,
+  .number-guess-game {
+    padding: 16px;
+  }
+
+  .glass-card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .player-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .history-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .turn-indicator {
+    font-size: 1rem;
+  }
 }
 
 .action-card:first-child {
@@ -731,24 +867,477 @@ button,
   background: rgba(0,0,0,0.2);
 }
 
-/* BOARD */
-.board {
-  margin-top: 10px;
-
-  width: 100%;
-  max-width: 420px;
-
+/* SCRIBBL GAME */
+.scribbl-setup,
+.scribbl-game {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  flex-grow: 1;
   justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
 
-  padding: 0 10px;
-  box-sizing: border-box;
-  transform-origin: top center;
+.scribbl-setup h1,
+.scribbl-game h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 18px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
 
+.name-input {
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.name-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.name-input input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.name-input input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.room-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 600px;
+}
+
+.action-card {
+  flex: 1;
+  min-width: 200px;
+}
+
+.join-room {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.join-room input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.join-room input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.game-header {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+.room-info {
+  text-align: center;
+  padding: 16px;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  height: 600px;
+}
+
+.players-sidebar {
+  padding: 20px;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+
+.player-item.drawer {
+  background: rgba(255,215,0,0.2);
+  border: 2px solid #FFD700;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.player-details {
+  flex: 1;
+}
+
+.player-details .name {
+  display: block;
+  font-weight: bold;
+}
+
+.player-details .score {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.drawer-badge {
+  font-size: 1.2rem;
+}
+
+.main-game {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.word-hint {
+  text-align: center;
+  padding: 20px;
+}
+
+.word-hint h2 {
+  font-size: 2rem;
+  letter-spacing: 0.2em;
+  margin: 0;
+  color: #FFD700;
+}
+
+.secret-word {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #81C784;
+}
+
+.canvas-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+.canvas-container canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.all-guessed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.drawing-tools {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tool-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.chat-sidebar {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  max-height: 400px;
+}
+
+.chat-message {
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+}
+
+.chat-message.correct {
+  background: rgba(76, 175, 80, 0.3);
+  border: 1px solid #4CAF50;
+}
+
+.sender {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.chat-input input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.send-btn {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.start-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.round-end {
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: auto;
+  }
+
+  .players-sidebar,
+  .chat-sidebar {
+    order: 2;
+  }
+
+  .main-game {
+    order: 1;
+  }
+
+  .canvas-container canvas {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .drawing-tools {
+    position: static;
+    margin-top: 12px;
+  }
+}
+
+.rounds-input {
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.rounds-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.rounds-input select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.rounds-input select option {
+  background: #333;
+  color: white;
+}
+
+.copy-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.game-end {
+  text-align: center;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+.winner-announcement {
+  margin-bottom: 30px;
+}
+
+.winner-announcement .trophy {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+.winner-announcement h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #FFD700;
+}
+
+.winner-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.winner-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+  box-shadow: 0 0 20px rgba(255,215,0,0.5);
+}
+
+.confetti {
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+.play-again-section {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 20px;
+}
+
+.play-again-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.play-again-section select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.play-again-btn {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .rounds-input input,
+  .rounds-input select {
+    font-size: 1.2rem;
+    padding: 14px;
+  }
+
+  .copy-btn {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .winner-announcement h2 {
+    font-size: 2rem;
+  }
+
+  .winner-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
 }
 
 .row {

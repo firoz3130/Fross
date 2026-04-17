@@ -359,7 +359,7 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                 </div>
                 <div className="room-actions">
                     <div className="action-card">
-                        <div className="join-room"> 
+                        <div className="join-room">
                             <input
                                 type="text"
                                 placeholder="Room code"
@@ -412,20 +412,30 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
         <div className="number-guess-game">
             {toast && <div className="toast">{toast}</div>}
             <h1>Number Guess Game</h1>
-            <div className="room-card">
+            <div className="room-card glass-card">
                 <p><strong>Room Code:</strong> {roomId}</p>
                 <p><strong>You are:</strong> {playerName}</p>
                 <p><strong>Status:</strong> {room?.feedback || status}</p>
-                <p>{room?.player1Name} ready: {room?.player1Ready ? "Yes" : "No"} | Wins: {room?.player1Wins || 0}</p>
-                <p>{room?.player2Name} ready: {room?.player2Ready ? "Yes" : "No"} | Wins: {room?.player2Wins || 0}</p>
+                <div className="player-stats">
+                    <div className="player-info">
+                        <span className="player-name">{room?.player1Name}</span>
+                        <span className="ready-status">{room?.player1Ready ? "✅ Ready" : "⏳ Waiting"}</span>
+                        <span className="wins">Wins: {room?.player1Wins || 0}</span>
+                    </div>
+                    <div className="player-info">
+                        <span className="player-name">{room?.player2Name}</span>
+                        <span className="ready-status">{room?.player2Ready ? "✅ Ready" : "⏳ Waiting"}</span>
+                        <span className="wins">Wins: {room?.player2Wins || 0}</span>
+                    </div>
+                </div>
                 {room?.streak && room?.streakPlayer && showStreak && (
-                    <p className="streak">{room.streakPlayer === 1 ? room.player1Name : room.player2Name} is on a {room.streak}-round streak!</p>
+                    <p className="streak glow-text">{room.streakPlayer === 1 ? room.player1Name : room.player2Name} is on a {room.streak}-round streak! 🔥</p>
                 )}
             </div>
 
             {!myReady && (
-                <div className="secret-inputs">
-                    <label>Enter your secret number</label>
+                <div className="secret-inputs glass-card">
+                    <label>Enter your secret number (0-100)</label>
                     <input
                         type="number"
                         min="0"
@@ -442,9 +452,10 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                                 setSecret(Math.min(100, Math.max(0, num)));
                             }
                         }}
+                        placeholder="Pick a number..."
                     />
-                    <button className="start-btn" onClick={submitSecret} disabled={!isSecretValid}>
-                        Save Secret
+                    <button className="start-btn glow-btn" onClick={submitSecret} disabled={!isSecretValid}>
+                        Lock in Secret
                     </button>
                 </div>
             )}
@@ -454,11 +465,11 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             )}
 
             {bothReady && !room?.winner && (
-                <div className="guess-section">
-                    <p>Current turn: {room?.currentPlayer ? (room.currentPlayer === 1 ? room.player1Name : room.player2Name) : "starting soon..."}</p>
+                <div className="guess-section glass-card">
+                    <p className="turn-indicator">Current turn: {room?.currentPlayer ? (room.currentPlayer === 1 ? room.player1Name : room.player2Name) : "starting soon..."}</p>
                     {room.currentPlayer === playerNumber ? (
                         <>
-                            <label>Enter your guess</label>
+                            <label>Make your guess (0-100)</label>
                             <input
                                 type="number"
                                 min="0"
@@ -466,13 +477,14 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                                 value={guess}
                                 onChange={(e) => setGuess(e.target.value)}
                                 onKeyPress={(e) => e.key === "Enter" && makeGuess()}
+                                placeholder="Enter your guess..."
                             />
-                            <button className="start-btn" onClick={makeGuess} disabled={!isGuessValid}>
-                                Guess
+                            <button className="start-btn glow-btn" onClick={makeGuess} disabled={!isGuessValid}>
+                                Submit Guess
                             </button>
                         </>
                     ) : (
-                        <p>Waiting for {room.currentPlayer === 1 ? room.player1Name : room.player2Name} to guess.</p>
+                        <p className="waiting-text">Waiting for {room.currentPlayer === 1 ? room.player1Name : room.player2Name} to guess.</p>
                     )}
                 </div>
             )}
@@ -484,31 +496,37 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             )}
 
             {room && room.history.length > 0 && (
-                <div className="round-history">
+                <div className="round-history glass-card">
                     <h3>Round History</h3>
                     <ul>
                         {room.history.slice(-5).map((entry, index) => (
-                            <li key={index}>{entry.player} guessed {entry.guess} → {entry.hint}</li>
+                            <li key={index} className="history-item">
+                                <span className="player">{entry.player}</span>
+                                <span className="guess">guessed {entry.guess}</span>
+                                <span className="hint">{entry.hint}</span>
+                            </li>
                         ))}
                     </ul>
                 </div>
             )}
 
             {room?.winner && (
-                <div className="winner-banner">
-                    <h2>{room.winner === playerNumber ? "YAY!! Guessing champion!" : "OOPPS... not this time."}</h2>
-                    <p>
+                <div className="winner-banner glass-card">
+                    <h2 className={room.winner === playerNumber ? "winner-text" : "loser-text"}>
+                        {room.winner === playerNumber ? "🎉 Guessing Champion!" : "😅 Not this time!"}
+                    </h2>
+                    <p className="winner-message">
                         {room.winner === playerNumber
-                            ? `YAY!! You are a master at guessing. ${room.winner === 1 ? room.player1Name : room.player2Name} wins this round!`
-                            : `${room.winner === 1 ? room.player1Name : room.player2Name} had the golden guess. Keep your head up, the next round is yours.`}
+                            ? `Amazing! You guessed it right. ${room.winner === 1 ? room.player1Name : room.player2Name} wins!`
+                            : `${room.winner === 1 ? room.player1Name : room.player2Name} had the golden guess. Keep trying!`}
                     </p>
-                    <p className="winner-note">Your opponent may already be waiting for a rematch.</p>
+                    <p className="rematch-note">Ready for another round?</p>
                     {showSpecialStreakPopup ? (
-                        <div className="special-streak-popup">
+                        <div className="special-streak-popup glow-card">
                             <p>{specialStreakMessage}</p>
                         </div>
                     ) : (
-                        <button className="start-btn" onClick={playAgain}>
+                        <button className="start-btn glow-btn" onClick={playAgain}>
                             Play Again
                         </button>
                     )}

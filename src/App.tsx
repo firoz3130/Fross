@@ -14,8 +14,9 @@ import LevelMap from "./components/LevelMap"
 import { sounds } from "./logic/sound";
 import NumberGuessGame from "./components/NumberGuessGame";
 import MemoryMatchGame from "./components/MemoryMatchGame";
+import ScribblGame from "./components/ScribblGame";
 
-type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch';
+type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('menu');
@@ -125,123 +126,129 @@ function App() {
     return false
   }
 
-  if (!puzzle) return null
-
-  if (currentView === 'menu') {
-    return (
-      <div className="menu">
-        <h1>🎮 Firos Creations</h1>
-        <div className="menu-quote">
-          <p>Whenever life feels overwhelming, stressed, come here, play a little, and unwind. This space was made for you , with Love.</p>
-          <span>~ F</span>
-        </div>
-        <div className="menu-options">
-          <button className="menu-btn crossword-btn" onClick={() => setCurrentView('crossword')}>
-            🧩 Crossword Puzzle
-          </button>
-          <button className="menu-btn number-btn" onClick={() => setCurrentView('numberGuess')}>
-            🔢 Number Guess Game
-          </button>
-          <button className="menu-btn memory-btn" onClick={() => setCurrentView('memoryMatch')}>
-            🧠 Memory Match Challenge
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (currentView === 'numberGuess') {
-    return <NumberGuessGame onBack={() => setCurrentView('menu')} />;
-  }
-
-  if (currentView === 'memoryMatch') {
-    return <MemoryMatchGame onBack={() => setCurrentView('menu')} />;
-  }
-
-  // Crossword view
-  return (
-
-    <div className={`game ${currentTheme.animationClass || ''}`} style={{
-      '--theme-bg': currentTheme.background,
-      '--theme-primary': currentTheme.primaryColor,
-      '--theme-secondary': currentTheme.secondaryColor,
-      '--theme-accent': currentTheme.accentColor,
-    } as React.CSSProperties}>
-
-      <button className="back-to-menu-btn" onClick={() => setCurrentView('menu')}>
-        ← Back to Menu
-      </button>
-
-      <h2>
-        Level {levelIndex + 1} / {LEVELS.length}
-      </h2>
-
-      {showLevelComplete && (
-        <div className="level-popup">
-          <div className="popup-content">
-            <div className="trophy">🏆</div>
-            <h2>Level Complete!</h2>
-            <p>Get ready for Level {levelIndex + 2}</p>
+  const renderCurrentView = () => {
+    if (currentView === 'menu') {
+      return (
+        <div className="menu">
+          <h1>🎮 Firos Creations</h1>
+          <div className="menu-quote">
+            <p>Whenever life feels overwhelming, stressed, come here, play a little, and unwind. This space was made for you , with Love.</p>
+            <span>~ F</span>
+          </div>
+          <div className="menu-options">
+            <button type="button" className="menu-btn crossword-btn" onClick={() => setCurrentView('crossword')}>
+              🧩 Crossword Puzzle
+            </button>
+            <button type="button" className="menu-btn number-btn" onClick={() => setCurrentView('numberGuess')}>
+              🔢 Number Guess Game
+            </button>
+            <button type="button" className="menu-btn memory-btn" onClick={() => setCurrentView('memoryMatch')}>
+              🧠 Memory Match Challenge
+            </button>
+            <button type="button" className="menu-btn scribbl-btn" onClick={() => setCurrentView('scribbl')}>
+              🎨 FiruDraw Guess Game
+            </button>
           </div>
         </div>
-      )}
+      );
+    }
 
-      {gameCompleted && (
-        <div className="level-popup">
-          <div className="popup-content">
-            <div className="trophy">👑</div>
-            <h2>You Finished The Game!</h2>
-            <p>Congratulations Puzzle Master 🧠</p>
-          </div>
-        </div>
-      )}
+    if (currentView === 'numberGuess') {
+      return <NumberGuessGame onBack={() => setCurrentView('menu')} />;
+    }
 
-      <button
-        className="map-btn"
-        onClick={() => setShowMap(true)}
-      >
-        🗺 Levels
-      </button>
+    if (currentView === 'memoryMatch') {
+      return <MemoryMatchGame onBack={() => setCurrentView('menu')} />;
+    }
 
-      {showMap && (
+    if (currentView === 'scribbl') {
+      return <ScribblGame onBack={() => setCurrentView('menu')} />;
+    }
 
-        <div className="map-popup" onClick={() => setShowMap(false)}>
+    if (currentView === 'crossword') {
+      if (!puzzle) return null;
 
-          <LevelMap
-            total={LEVELS.length}
-            current={levelIndex}
-            maxUnlocked={maxUnlocked}
-            currentTheme={currentTheme}
-            onThemeChange={setCurrentTheme}
-            onSelect={(l) => {
-              setLevelIndex(l)
-              setLetters(LEVELS[l].letters)
-              setShowMap(false)
-            }}
-            onClose={() => setShowMap(false)}
+      return (
+        <div className={`game ${currentTheme.animationClass || ''}`} style={{
+          '--theme-bg': currentTheme.background,
+          '--theme-primary': currentTheme.primaryColor,
+          '--theme-secondary': currentTheme.secondaryColor,
+          '--theme-accent': currentTheme.accentColor,
+        } as React.CSSProperties}>
+
+          <button className="back-to-menu-btn" onClick={() => setCurrentView('menu')}>
+            ← Back to Menu
+          </button>
+
+          <h2>
+            Level {levelIndex + 1} / {LEVELS.length}
+          </h2>
+
+          {showLevelComplete && (
+            <div className="level-popup">
+              <div className="popup-content">
+                <div className="trophy">🏆</div>
+                <h2>Level Complete!</h2>
+                <p>Get ready for Level {levelIndex + 2}</p>
+              </div>
+            </div>
+          )}
+
+          {gameCompleted && (
+            <div className="level-popup">
+              <div className="popup-content">
+                <div className="trophy">👑</div>
+                <h2>You Finished The Game!</h2>
+                <p>Congratulations Puzzle Master 🧠</p>
+              </div>
+            </div>
+          )}
+
+          <button
+            className="map-btn"
+            onClick={() => setShowMap(true)}
+          >
+            🗺 Levels
+          </button>
+
+          {showMap && (
+            <div className="map-popup" onClick={() => setShowMap(false)}>
+              <LevelMap
+                total={LEVELS.length}
+                current={levelIndex}
+                maxUnlocked={maxUnlocked}
+                currentTheme={currentTheme}
+                onThemeChange={setCurrentTheme}
+                onSelect={(l) => {
+                  setLevelIndex(l)
+                  setLetters(LEVELS[l].letters)
+                  setShowMap(false)
+                }}
+                onClose={() => setShowMap(false)}
+              />
+            </div>
+          )}
+
+          <Board
+            key={levelIndex}
+            grid={puzzle.grid}
+            placements={puzzle.placements}
+            solvedWords={solvedWords}
           />
 
+          <HintButton onHint={useHint} />
+          <LetterCircle
+            letters={letters}
+            onWordSubmit={handleWordSubmit}
+          />
         </div>
+      );
+    }
 
-      )}
+    return null;
+  };
 
-      <Board
-        key={levelIndex}
-        grid={puzzle.grid}
-        placements={puzzle.placements}
-        solvedWords={solvedWords}
-      />
-
-      <HintButton onHint={useHint} />
-      <LetterCircle
-        letters={letters}
-        onWordSubmit={handleWordSubmit}
-      />
-
-    </div>
-
-  )
-
+  return renderCurrentView();
 }
 
 export default App
