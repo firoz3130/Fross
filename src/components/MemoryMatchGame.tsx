@@ -49,11 +49,22 @@ function generateRoomId() {
 const WORD_PAIRS = {
     synonyms: [
         ['happy', 'joyful'], ['big', 'large'], ['fast', 'quick'], ['smart', 'clever'],
-        ['brave', 'courageous'], ['calm', 'peaceful'], ['bright', 'shiny'], ['strong', 'powerful']
+        ['brave', 'courageous'], ['calm', 'peaceful'], ['bright', 'shiny'], ['strong', 'powerful'],
+        ['kind', 'gentle'], ['loud', 'noisy'], ['small', 'tiny'], ['old', 'ancient'],
+        ['new', 'fresh'], ['hot', 'warm'], ['cold', 'chilly'], ['wet', 'damp'],
+        ['dry', 'arid'], ['hard', 'tough'], ['soft', 'gentle'], ['heavy', 'weighty'],
+        ['light', 'airy'], ['dark', 'gloomy'], ['light', 'bright'], ['clean', 'spotless'],
+        ['dirty', 'filthy'], ['full', 'complete'], ['empty', 'vacant'], ['rich', 'wealthy'],
+        ['poor', 'destitute'], ['young', 'youthful'], ['tall', 'lofty'], ['short', 'brief']
     ],
     antonyms: [
         ['hot', 'cold'], ['up', 'down'], ['day', 'night'], ['good', 'bad'],
-        ['fast', 'slow'], ['big', 'small'], ['happy', 'sad'], ['hard', 'soft']
+        ['fast', 'slow'], ['big', 'small'], ['happy', 'sad'], ['hard', 'soft'],
+        ['high', 'low'], ['left', 'right'], ['in', 'out'], ['on', 'off'],
+        ['open', 'closed'], ['full', 'empty'], ['wet', 'dry'], ['light', 'dark'],
+        ['loud', 'quiet'], ['rich', 'poor'], ['young', 'old'], ['tall', 'short'],
+        ['thick', 'thin'], ['wide', 'narrow'], ['deep', 'shallow'], ['strong', 'weak'],
+        ['easy', 'difficult'], ['clean', 'dirty'], ['near', 'far'], ['early', 'late']
     ]
 };
 
@@ -61,28 +72,69 @@ const WORD_PAIRS = {
 const NUMBER_PAIRS = {
     equations: [
         ['2+2', '4'], ['5×3', '15'], ['10÷2', '5'], ['7+8', '15'],
-        ['9-4', '5'], ['6×4', '24'], ['12÷3', '4'], ['3+7', '10']
+        ['9-4', '5'], ['6×4', '24'], ['12÷3', '4'], ['3+7', '10'],
+        ['8÷4', '2'], ['11-6', '5'], ['4×5', '20'], ['13+2', '15'],
+        ['16÷8', '2'], ['9×2', '18'], ['14-7', '7'], ['5+9', '14'],
+        ['6÷3', '2'], ['17-8', '9'], ['3×6', '18'], ['12+3', '15'],
+        ['20÷5', '4'], ['7×3', '21'], ['18-9', '9'], ['4+11', '15']
     ],
     sequences: [
         ['1,2,3', '4'], ['2,4,6', '8'], ['5,10,15', '20'], ['3,6,9', '12'],
-        ['1,3,5', '7'], ['2,3,5', '7'], ['1,4,7', '10'], ['2,5,8', '11']
+        ['1,3,5', '7'], ['2,3,5', '7'], ['1,4,7', '10'], ['2,5,8', '11'],
+        ['4,8,12', '16'], ['6,9,12', '15'], ['7,14,21', '28'], ['5,15,25', '35'],
+        ['8,16,24', '32'], ['9,18,27', '36'], ['10,20,30', '40'], ['3,9,15', '21'],
+        ['6,12,18', '24'], ['4,12,20', '28'], ['7,21,35', '49'], ['2,6,10', '14'],
+        ['5,25,125', '625'], ['1,8,27', '64'], ['2,10,26', '50'], ['3,12,27', '48']
     ]
 };
 
 function generateCards(gameMode: GameMode, difficulty: Difficulty): Card[] {
     let pairs: string[][] = [];
-    const gridSize = difficulty === 'easy' ? 16 : difficulty === 'medium' ? 24 : 36; // 4x4, 6x6, 6x6
+    const gridSize = difficulty === 'easy' ? 16 : 36; // 4x4 = 16, 6x6 = 36
     const numPairs = gridSize / 2;
 
     if (gameMode === 'words') {
-        const synonymPairs = WORD_PAIRS.synonyms.slice(0, numPairs / 2);
-        const antonymPairs = WORD_PAIRS.antonyms.slice(0, numPairs / 2);
+        const allSynonymPairs = WORD_PAIRS.synonyms;
+        const allAntonymPairs = WORD_PAIRS.antonyms;
+        const synonymPairs = allSynonymPairs.slice(0, Math.min(numPairs / 2, allSynonymPairs.length));
+        const antonymPairs = allAntonymPairs.slice(0, Math.min(numPairs / 2, allAntonymPairs.length));
         pairs = [...synonymPairs, ...antonymPairs];
+
+        // If we don't have enough pairs, fill with remaining pairs
+        if (pairs.length < numPairs) {
+            const remainingSynonyms = allSynonymPairs.slice(synonymPairs.length);
+            const remainingAntonyms = allAntonymPairs.slice(antonymPairs.length);
+            pairs = [...pairs, ...remainingSynonyms, ...remainingAntonyms].slice(0, numPairs);
+        }
     } else {
-        const equationPairs = NUMBER_PAIRS.equations.slice(0, numPairs / 2);
-        const sequencePairs = NUMBER_PAIRS.sequences.slice(0, numPairs / 2);
+        const allEquationPairs = NUMBER_PAIRS.equations;
+        const allSequencePairs = NUMBER_PAIRS.sequences;
+        const equationPairs = allEquationPairs.slice(0, Math.min(numPairs / 2, allEquationPairs.length));
+        const sequencePairs = allSequencePairs.slice(0, Math.min(numPairs / 2, allSequencePairs.length));
         pairs = [...equationPairs, ...sequencePairs];
+
+        // If we don't have enough pairs, fill with remaining pairs
+        if (pairs.length < numPairs) {
+            const remainingEquations = allEquationPairs.slice(equationPairs.length);
+            const remainingSequences = allSequencePairs.slice(sequencePairs.length);
+            pairs = [...pairs, ...remainingEquations, ...remainingSequences].slice(0, numPairs);
+        }
     }
+
+    // Ensure all values are unique across all pairs
+    const usedValues = new Set<string>();
+    const uniquePairs: string[][] = [];
+
+    for (const pair of pairs) {
+        const [val1, val2] = pair;
+        if (!usedValues.has(val1) && !usedValues.has(val2)) {
+            usedValues.add(val1);
+            usedValues.add(val2);
+            uniquePairs.push(pair);
+        }
+    }
+
+    pairs = uniquePairs.slice(0, numPairs);
 
     const cards: Card[] = [];
     let id = 0;
@@ -124,6 +176,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
     const [room, setRoom] = useState<RoomData | null>(null);
     const [gameMode, setGameMode] = useState<GameMode>('words');
     const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+    const [roomGameMode, setRoomGameMode] = useState<GameMode>('words');
+    const [roomDifficulty, setRoomDifficulty] = useState<Difficulty>('easy');
     const [error, setError] = useState("");
     const [status, setStatus] = useState("");
     const [toast, setToast] = useState("");
@@ -149,6 +203,13 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
 
         return () => unsubscribe();
     }, [roomId]);
+
+    useEffect(() => {
+        if (room) {
+            setRoomGameMode(room.gameMode);
+            setRoomDifficulty(room.difficulty);
+        }
+    }, [room?.roomId]);
 
     const createRoom = async () => {
         setError("");
@@ -318,11 +379,34 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
 
     const playAgain = async () => {
         setError("");
-        if (!roomId) return;
+        if (!roomId || !room) return;
 
-        const cards = generateCards(room?.gameMode || 'words', room?.difficulty || 'easy');
+        const cards = generateCards(room.gameMode, room.difficulty);
         const roomRef = doc(db, "memoryRooms", roomId);
         await updateDoc(roomRef, {
+            player1Score: 0,
+            player2Score: 0,
+            currentPlayer: 1,
+            cards,
+            flippedCards: [],
+            matchedPairs: [],
+            gameStarted: false,
+            winner: null,
+            timeBonus: 0,
+        });
+
+        setTurnStartTime(Date.now());
+    };
+
+    const resetRoomSettings = async () => {
+        setError("");
+        if (!roomId || !room) return;
+
+        const cards = generateCards(roomGameMode, roomDifficulty);
+        const roomRef = doc(db, "memoryRooms", roomId);
+        await updateDoc(roomRef, {
+            gameMode: roomGameMode,
+            difficulty: roomDifficulty,
             player1Score: 0,
             player2Score: 0,
             currentPlayer: 1,
@@ -366,9 +450,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                     <div className="option-group">
                         <label>Difficulty:</label>
                         <select value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}>
-                            <option value="easy">Easy (4×4 grid)</option>
-                            <option value="medium">Medium (6×6 grid)</option>
-                            <option value="hard">Hard (6×6 grid, more pairs)</option>
+                            <option value="easy">Easy (4×4 grid, 8 pairs)</option>
+                            <option value="medium">Medium (6×6 grid, 18 pairs)</option>
                         </select>
                     </div>
                 </div>
@@ -467,7 +550,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                         style={{
                             gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
                             gap: '8px',
-                            maxWidth: gridSize === 4 ? '400px' : '500px'
+                            width: '100%',
+                            maxWidth: gridSize === 4 ? 'min(100vw - 32px, 400px)' : 'min(100vw - 32px, 500px)'
                         }}
                     >
                         {room.cards.map((card) => {
@@ -486,7 +570,7 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: isMyTurn && !isFlipped && !isMatched ? 'pointer' : 'default',
-                                        fontSize: gridSize === 4 ? '1.2rem' : '1rem',
+                                        fontSize: gridSize === 4 ? 'clamp(0.8rem, 2.5vw, 1.2rem)' : 'clamp(0.6rem, 1.8vw, 1rem)',
                                         fontWeight: 'bold',
                                         color: 'white',
                                         transition: 'all 0.3s ease',
@@ -512,6 +596,31 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                     </p>
                     <button className="start-btn" onClick={playAgain}>
                         Play Again
+                    </button>
+                </div>
+            )}
+
+            {room.winner && (
+                <div className="settings-panel">
+                    <h3>Reset game with new settings</h3>
+                    <div className="game-options">
+                        <div className="option-group">
+                            <label>Game Mode:</label>
+                            <select value={roomGameMode} onChange={(e) => setRoomGameMode(e.target.value as GameMode)}>
+                                <option value="words">Words (Synonyms & Antonyms)</option>
+                                <option value="numbers">Numbers (Equations & Sequences)</option>
+                            </select>
+                        </div>
+                        <div className="option-group">
+                            <label>Difficulty:</label>
+                            <select value={roomDifficulty} onChange={(e) => setRoomDifficulty(e.target.value as Difficulty)}>
+                                <option value="easy">Easy (4×4 grid, 8 pairs)</option>
+                                <option value="medium">Medium (6×6 grid, 18 pairs)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button className="start-btn" onClick={resetRoomSettings}>
+                        Reset Room with New Settings
                     </button>
                 </div>
             )}

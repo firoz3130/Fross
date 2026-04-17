@@ -359,7 +359,7 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                 </div>
                 <div className="room-actions">
                     <div className="action-card">
-                        <div className="join-room">
+                        <div className="join-room"> 
                             <input
                                 type="text"
                                 placeholder="Room code"
