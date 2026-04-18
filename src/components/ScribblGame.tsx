@@ -347,8 +347,9 @@ function ScribblGame({ onBack }: ScribblGameProps) {
     };
 
     // Drawing functions
-    const startDrawing = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const startDrawing = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
         if (!room || room.currentDrawer !== playerId) return;
+        e.preventDefault();
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -361,8 +362,9 @@ function ScribblGame({ onBack }: ScribblGameProps) {
         setLastPos({ x, y });
     }, [room, playerId]);
 
-    const draw = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const draw = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
         if (!isDrawing || !room || room.currentDrawer !== playerId) return;
+        e.preventDefault();
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -570,15 +572,18 @@ function ScribblGame({ onBack }: ScribblGameProps) {
                             ref={canvasRef}
                             width={600}
                             height={400}
-                            onMouseDown={startDrawing}
-                            onMouseMove={draw}
-                            onMouseUp={stopDrawing}
-                            onMouseLeave={stopDrawing}
+                            onPointerDown={startDrawing}
+                            onPointerMove={draw}
+                            onPointerUp={stopDrawing}
+                            onPointerLeave={stopDrawing}
+                            onPointerCancel={stopDrawing}
                             style={{
                                 border: '2px solid rgba(255,255,255,0.2)',
                                 borderRadius: '12px',
                                 background: 'white',
-                                cursor: isDrawer ? 'crosshair' : 'default'
+                                cursor: isDrawer ? 'crosshair' : 'default',
+                                touchAction: 'none',
+                                userSelect: 'none'
                             }}
                         />
                         {allGuessed && (

@@ -9,6 +9,7 @@ import { generateLevel } from "./logic/generateLevel";
 
 import { LEVELS } from "./data/levels";
 import { THEMES } from "./data/themes";
+import { QUOTES } from "./data/quotes";
 import HintButton from "./components/HintButton"
 import LevelMap from "./components/LevelMap"
 import { sounds } from "./logic/sound";
@@ -37,60 +38,6 @@ function App() {
   const [menuQuote, setMenuQuote] = useState(
     "Whenever life feels overwhelming, stressed, come here, play a little, and unwind. This space was made for you , with Love."
   )
-
-  const QUOTES = [
-    "Whenever life feels overwhelming, stressed, come here, play a little, and unwind. This space was made for you , with Love.",
-    "You don’t have to solve everything today. Just take it one step at a time.",
-    "It’s okay to pause. Rest is part of progress.",
-    "This moment is not forever. Things can and will change.",
-    "You’re allowed to take a break without feeling guilty.",
-    "Breathe. You’ve made it through difficult days before.",
-    "You are better than you think, stronger than you know, and more capable than you imagine.",
-    "It’s okay to ask for help. You don’t have to do it all alone.",
-    "Focus on what you can control, and let go of what you can’t.",
-    "Small steps forward are still progress. Keep going at your own pace.",
-    "You’re doing better than you think, even if it doesn’t feel like it.",
-    "Built for real people—join friends, play together, and don’t face tough moments alone.",
-    "Built for real people, Don't be lonely. play together, and turn lonely, heavy moments into something lighter.",
-    "Take a deep breath. You don’t have to carry everything at once.",
-    "People should remember you for how you make them feel",
-    "Slow down. Not everything needs to be figured out right now.",
-    "I know you are moody, Chalo let’s just play a game and chill.",
-    "Life's so short, forgetting is sooo long. Let's make some fun memories together.",
-    "Be such a true friend that you’re part of the last 7 minutes of their most cherished memories.",
-    "It’s okay if today is just about getting through.",
-    "You are allowed to have days where you do less.",
-    "Even small steps count. You’re still moving forward.",
-    "Be gentle with yourself. You’re trying your best.",
-    "You don’t need to rush your healing.",
-    "Some days are heavy, and that’s okay.",
-    "You’ve survived every hard day so far. That matters.",
-    "Let today be enough, just as it is.",
-    "You don’t have to be strong all the time.",
-    "It’s okay to rest your mind for a while.",
-    "Things may feel messy, but that doesn’t mean they’re falling apart.",
-    "You’re allowed to step back and breathe.",
-    "Not everything needs your energy right now.",
-    "You can start again, as many times as you need.",
-    "You’re not behind. You’re on your own path.",
-    "It’s okay to take things slowly today.",
-    "You don’t need to prove anything right now.",
-    "Peace can begin with one quiet moment.",
-    "Even a little progress is still progress.",
-    "You’re allowed to take up space and feel your feelings.",
-    "This feeling will pass, even if it takes time.",
-    "You are more than what you’re going through.",
-    "It’s okay if all you did today was try.",
-    "You don’t have to carry yesterday into today.",
-    "Give yourself the same kindness you give others.",
-    "You’re still here, and that’s something to be proud of.",
-    "Resting is not quitting. It’s part of continuing.",
-    "Let go of the pressure to have everything figured out.",
-    "You can pause without giving up.",
-    "Today doesn’t need to be perfect to be meaningful.",
-    "You are allowed to feel and still move forward.",
-    "Take it moment by moment, not all at once."
-  ];
 
   useEffect(() => {
     if (currentView !== 'menu') return;
