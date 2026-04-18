@@ -1227,21 +1227,6 @@ button,
   color: white;
 }
 
-.copy-btn {
-  background: rgba(255,255,255,0.2);
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 0.9rem;
-}
-
-.copy-btn:hover {
-  background: rgba(255,255,255,0.3);
-}
-
 .game-end {
   text-align: center;
   margin-top: 20px;
@@ -1321,12 +1306,6 @@ button,
   .rounds-input select {
     font-size: 1.2rem;
     padding: 14px;
-  }
-
-  .copy-btn {
-    display: block;
-    margin: 10px 0;
-    width: 100%;
   }
 
   .winner-announcement h2 {

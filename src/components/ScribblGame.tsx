@@ -40,8 +40,8 @@ const WORDS = [
     'apple', 'banana', 'car', 'house', 'tree', 'sun', 'moon', 'star', 'dog', 'cat',
     'bird', 'fish', 'flower', 'book', 'phone', 'computer', 'chair', 'table', 'door', 'window',
     'mountain', 'river', 'ocean', 'beach', 'forest', 'garden', 'city', 'street', 'bridge', 'castle', 'india', 'guitar', 'piano', 'drum', 'bicycle', 'airplane', 'train', 'bus', 'rocket', 'alien',
-    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash','god','love','heart','hate','ranbir kapoor','firos','somgs','bangalore','hyderabad',
-    'keralam','telangana','mysore','karnataka','bike','scooty','car','laptop','football','cricket','messi','ronaldo','kohli'
+    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash', 'god', 'love', 'heart', 'hate', 'ranbir kapoor', 'firos', 'somgs', 'bangalore', 'hyderabad',
+    'keralam', 'telangana', 'mysore', 'karnataka', 'bike', 'scooty', 'car', 'laptop', 'football', 'cricket', 'messi', 'ronaldo', 'kohli'
 ];
 
 function generateRoomId() {
@@ -166,7 +166,15 @@ function ScribblGame({ onBack }: ScribblGameProps) {
         setRoomId(id);
         setPlayerId(pid);
         setStep("room");
-        setStatus("Room created. Share the code with friends.");
+
+        try {
+            await navigator.clipboard.writeText(id);
+            setStatus("Room created and code copied to clipboard!");
+            setToast("Room code copied to clipboard!");
+            setTimeout(() => setToast(""), 3000);
+        } catch (err) {
+            setStatus("Room created. Share the code with friends.");
+        }
     };
 
     const joinRoom = async () => {
@@ -338,17 +346,6 @@ function ScribblGame({ onBack }: ScribblGameProps) {
         });
     };
 
-    const copyToClipboard = async () => {
-        try {
-            await navigator.clipboard.writeText(roomId);
-            setToast("Room code copied to clipboard!");
-            setTimeout(() => setToast(""), 3000);
-        } catch (err) {
-            setToast("Failed to copy code.");
-            setTimeout(() => setToast(""), 3000);
-        }
-    };
-
     // Drawing functions
     const startDrawing = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
         if (!room || room.currentDrawer !== playerId) return;
@@ -517,7 +514,6 @@ function ScribblGame({ onBack }: ScribblGameProps) {
                 <h1>🎨 FiruDraw</h1>
                 <div className="room-card glass-card">
                     <p><strong>Room Code:</strong> {roomId}</p>
-                    <button className="copy-btn" onClick={copyToClipboard}>📋 Copy Code</button>
                     <p><strong>You are:</strong> {playerName}</p>
                     <p><strong>Status:</strong> {status || "Loading room..."}</p>
                 </div>
