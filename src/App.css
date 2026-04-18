@@ -1227,35 +1227,50 @@ button,
   color: white;
 }
 
-.game-end {
-  text-align: center;
-  margin-top: 20px;
+.game-end-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.game-end-modal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
   padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 
-.winner-announcement {
-  margin-bottom: 30px;
-}
-
-.winner-announcement .trophy {
+.game-end-modal .trophy {
   font-size: 4rem;
   margin-bottom: 10px;
 }
 
-.winner-announcement h2 {
+.game-end-modal h2 {
   font-size: 2.5rem;
   margin-bottom: 20px;
   color: #FFD700;
 }
 
-.winner-info {
+.game-end-modal .winner-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.winner-avatar {
+.game-end-modal .winner-avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -1270,23 +1285,24 @@ button,
   box-shadow: 0 0 20px rgba(255,215,0,0.5);
 }
 
-.confetti {
+.game-end-modal .confetti {
   font-size: 2rem;
   margin-top: 10px;
 }
 
-.play-again-section {
+.game-end-modal .play-again-section {
   border-top: 1px solid rgba(255,255,255,0.2);
   padding-top: 20px;
+  margin-top: 20px;
 }
 
-.play-again-section label {
+.game-end-modal .play-again-section label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.play-again-section select {
+.game-end-modal .play-again-section select {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.2);
@@ -1294,11 +1310,28 @@ button,
   color: white;
   margin-bottom: 15px;
   font-size: 1rem;
+  width: 100%;
 }
 
-.play-again-btn {
+.game-end-modal .play-again-btn {
   padding: 12px 24px;
   font-size: 1.1rem;
+}
+
+.game-end-modal .close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.game-end-modal .close-modal-btn:hover {
+  opacity: 1;
 }
 
 @media (max-width: 640px) {
@@ -1308,11 +1341,16 @@ button,
     padding: 14px;
   }
 
-  .winner-announcement h2 {
+  .game-end-modal {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .game-end-modal h2 {
     font-size: 2rem;
   }
 
-  .winner-avatar {
+  .game-end-modal .winner-avatar {
     width: 60px;
     height: 60px;
     font-size: 1.5rem;

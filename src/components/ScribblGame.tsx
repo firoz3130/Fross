@@ -355,8 +355,10 @@ function ScribblGame({ onBack }: ScribblGameProps) {
         if (!canvas) return;
 
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
 
         setIsDrawing(true);
         setLastPos({ x, y });
@@ -373,8 +375,10 @@ function ScribblGame({ onBack }: ScribblGameProps) {
         if (!ctx) return;
 
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = (e.clientX - rect.left) * scaleX;
+        const y = (e.clientY - rect.top) * scaleY;
 
         ctx.strokeStyle = color;
         ctx.lineWidth = brushSize;
@@ -658,32 +662,37 @@ function ScribblGame({ onBack }: ScribblGameProps) {
             )}
 
             {room.gameState === 'gameEnd' && (
-                <div className="game-end glass-card">
-                    <div className="winner-announcement">
-                        <div className="trophy">🏆</div>
-                        <h2>Game Complete!</h2>
-                        <div className="winner-info">
-                            <div className="winner-avatar">{winner.avatar}</div>
-                            <p><strong>{winner.name}</strong> is the winner!</p>
-                            <p>Final Score: {winner.score} points</p>
+                <div className="game-end-modal-overlay">
+                    <div className="game-end-modal">
+                        <div className="winner-announcement">
+                            <div className="trophy">🏆</div>
+                            <h2>Game Complete!</h2>
+                            <div className="winner-info">
+                                <div className="winner-avatar">{winner.avatar}</div>
+                                <p><strong>{winner.name}</strong> is the winner!</p>
+                                <p>Final Score: {winner.score} points</p>
+                            </div>
+                            <div className="confetti">🎉✨🎊</div>
                         </div>
-                        <div className="confetti">🎉✨🎊</div>
-                    </div>
-                    <div className="play-again-section">
-                        <label>Select rounds for next game:</label>
-                        <select id="playAgainRounds" defaultValue={3}>
-                            <option value={2}>2 Rounds</option>
-                            <option value={3}>3 Rounds</option>
-                            <option value={4}>4 Rounds</option>
-                            <option value={5}>5 Rounds</option>
-                            <option value={6}>6 Rounds</option>
-                        </select>
-                        <button className="play-again-btn glow-btn" onClick={() => {
-                            const rounds = parseInt((document.getElementById('playAgainRounds') as HTMLSelectElement).value);
-                            playAgain(rounds);
-                        }}>
-                            Play Again
-                        </button>
+                        <div className="play-again-section">
+                            <label>Select rounds for next game:</label>
+                            <select id="playAgainRounds" defaultValue={3}>
+                                <option value={2}>2 Rounds</option>
+                                <option value={3}>3 Rounds</option>
+                                <option value={4}>4 Rounds</option>
+                                <option value={5}>5 Rounds</option>
+                                <option value={6}>6 Rounds</option>
+                            </select>
+                            <button className="play-again-btn glow-btn" onClick={() => {
+                                const rounds = parseInt((document.getElementById('playAgainRounds') as HTMLSelectElement).value);
+                                playAgain(rounds);
+                            }}>
+                                Play Again
+                            </button>
+                        </div>
+                        <button className="close-modal-btn" onClick={() => {
+                            // Optionally close modal, but since it's gameEnd, maybe keep it
+                        }}>×</button>
                     </div>
                 </div>
             )}
