@@ -53,6 +53,7 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
     const [showStreak, setShowStreak] = useState(false);
     const [showSpecialStreakPopup, setShowSpecialStreakPopup] = useState(false);
     const [specialStreakMessage, setSpecialStreakMessage] = useState("");
+    const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
 
     useEffect(() => {
         if (!roomId) return;
@@ -343,6 +344,33 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
         setStatus("");
     };
 
+    const handleLeaveRoom = () => setShowLeaveConfirm(true);
+    const cancelLeave = () => setShowLeaveConfirm(false);
+    const confirmLeaveRoom = () => {
+        setShowLeaveConfirm(false);
+        leaveRoom();
+    };
+
+    const renderLeaveConfirmModal = () => {
+        if (!showLeaveConfirm) return null;
+        return (
+            <div className="confirm-modal-overlay">
+                <div className="confirm-modal glass-card">
+                    <h2>Leave Room?</h2>
+                    <p>Do you really want to leave the room? Your current game session will end.</p>
+                    <div className="confirm-actions">
+                        <button className="cancel-btn" onClick={cancelLeave}>
+                            No, stay
+                        </button>
+                        <button className="start-btn glow-btn" onClick={confirmLeaveRoom}>
+                            Yes, leave
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     if (step === "menu") {
         return (
             <div className="number-guess-setup">
@@ -395,7 +423,8 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
                     <p><strong>Status:</strong> {status || "Loading room..."}</p>
                 </div>
                 {error && <p className="error">{error}</p>}
-                <button className="back-btn" onClick={leaveRoom}>
+                {renderLeaveConfirmModal()}
+                <button className="back-btn" onClick={handleLeaveRoom}>
                     Leave Room
                 </button>
             </div>
@@ -534,8 +563,8 @@ function NumberGuessGame({ onBack }: NumberGuessGameProps) {
             )}
 
             {error && <p className="error">{error}</p>}
-
-            <button className="back-btn" onClick={leaveRoom}>
+            {renderLeaveConfirmModal()}
+            <button className="back-btn" onClick={handleLeaveRoom}>
                 Leave Room
             </button>
         </div>

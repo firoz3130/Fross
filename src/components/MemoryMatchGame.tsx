@@ -421,6 +421,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
         setTurnStartTime(Date.now());
     };
 
+    const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+
     const leaveRoom = () => {
         setStep("menu");
         setRoomId("");
@@ -430,6 +432,33 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
         setRoom(null);
         setError("");
         setStatus("");
+    };
+
+    const handleLeaveRoom = () => setShowLeaveConfirm(true);
+    const cancelLeave = () => setShowLeaveConfirm(false);
+    const confirmLeaveRoom = () => {
+        setShowLeaveConfirm(false);
+        leaveRoom();
+    };
+
+    const renderLeaveConfirmModal = () => {
+        if (!showLeaveConfirm) return null;
+        return (
+            <div className="confirm-modal-overlay">
+                <div className="confirm-modal glass-card">
+                    <h2>Leave Room?</h2>
+                    <p>Do you really want to leave the room? Your current game session will end.</p>
+                    <div className="confirm-actions">
+                        <button className="cancel-btn" onClick={cancelLeave}>
+                            No, stay
+                        </button>
+                        <button className="start-btn glow-btn" onClick={confirmLeaveRoom}>
+                            Yes, leave
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
     };
 
     if (step === "menu") {
@@ -505,7 +534,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                     <p><strong>Status:</strong> {status || "Loading room..."}</p>
                 </div>
                 {error && <p className="error">{error}</p>}
-                <button className="back-btn" onClick={leaveRoom}>
+                {renderLeaveConfirmModal()}
+                <button className="back-btn" onClick={handleLeaveRoom}>
                     Leave Room
                 </button>
             </div>
@@ -626,8 +656,8 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
             )}
 
             {error && <p className="error">{error}</p>}
-
-            <button className="back-btn" onClick={leaveRoom}>
+            {renderLeaveConfirmModal()}
+            <button className="back-btn" onClick={handleLeaveRoom}>
                 Leave Room
             </button>
         </div>

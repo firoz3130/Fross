@@ -1565,9 +1565,68 @@ button,
   color:#666;
 }
 
-.trophy{
-  font-size:70px;
-  animation:bounce 1s infinite;
+.confirm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.confirm-modal {
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 420px;
+  width: min(90vw, 420px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.confirm-modal h2 {
+  margin-bottom: 12px;
+  color: #f8fafc;
+  font-size: 1.8rem;
+}
+
+.confirm-modal p {
+  margin-bottom: 20px;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.confirm-actions .cancel-btn,
+.confirm-actions .start-btn {
+  min-width: 130px;
+}
+
+.confirm-actions .cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #f8fafc;
+}
+
+.confirm-actions .cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.confirm-actions .start-btn {
+  background: #4c7dff;
+  color: white;
+}
+
+.confirm-actions .start-btn:hover {
+  background: #3664d4;
 }
 
 @keyframes bounce{
