@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, getDocs, collection } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -14,6 +14,28 @@ const firebaseConfig = {
 	measurementId: "G-VMPSKSP8YT",
 };
 
+async function getAllPlayerNames() {
+  const querySnapshot = await getDocs(collection(db, "memoryRooms"));
+
+  const players: { roomId: string; player1Name: string | null; player2Name: string | null; }[] = [];
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    players.push({
+      roomId: doc.id,
+      player1Name: data.player1Name || null,
+      player2Name: data.player2Name || null,
+    });
+  });
+
+  console.log(players);
+  return players;
+}
+
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+getAllPlayerNames();

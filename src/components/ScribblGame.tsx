@@ -40,8 +40,9 @@ const WORDS = [
     'apple', 'banana', 'car', 'house', 'tree', 'sun', 'moon', 'star', 'dog', 'cat',
     'bird', 'fish', 'flower', 'book', 'phone', 'computer', 'chair', 'table', 'door', 'window',
     'mountain', 'river', 'ocean', 'beach', 'forest', 'garden', 'city', 'street', 'bridge', 'castle', 'india', 'guitar', 'piano', 'drum', 'bicycle', 'airplane', 'train', 'bus', 'rocket', 'alien',
-    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash', 'god', 'love', 'heart', 'hate', 'ranbir kapoor', 'firos', 'somgs', 'bangalore', 'hyderabad',
-    'keralam', 'telangana', 'mysore', 'karnataka', 'bike', 'scooty', 'car', 'laptop', 'football', 'cricket', 'messi', 'ronaldo', 'kohli'
+    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash', 'god', 'love', 'heart', 'hate', 'ranbir kapoor', 'firos', 'praharsha', 'somgs', 'bangalore', 'hyderabad',
+    'keralam', 'telangana', 'mysore', 'karnataka', 'bike', 'scooty', 'car', 'laptop', 'football', 'cricket', 'messi', 'ronaldo', 'kohli', 'gateway', 'taj mahal', 'Pyramids','coconut', 'piano','windows','bicycle','thieves',
+    'pirates','ninja','samurai','vampire','zombie','ghost','witch','wizard','unicorn','dragon','dinosaur','mermaid','fairy','giant','monster','robot','alien','superhero','villain'
 ];
 
 function generateRoomId() {

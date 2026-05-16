@@ -16,8 +16,9 @@ import { sounds } from "./logic/sound";
 import NumberGuessGame from "./components/NumberGuessGame";
 import MemoryMatchGame from "./components/MemoryMatchGame"
 import ScribblGame from "./components/ScribblGame";
+import About from "./components/About";
 
-type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl';
+type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl' | 'about';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('menu');
@@ -158,8 +159,15 @@ function App() {
               🎨 FiruDraw Guess Game
             </button>
           </div>
+          <button type="button" className="about-author-link" onClick={() => setCurrentView('about')}>
+            About Author
+          </button>
         </div>
       );
+    }
+
+    if (currentView === 'about') {
+      return <About onClose={() => setCurrentView('menu')} />;
     }
 
     if (currentView === 'numberGuess') {
