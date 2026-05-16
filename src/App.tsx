@@ -17,8 +17,9 @@ import NumberGuessGame from "./components/NumberGuessGame";
 import MemoryMatchGame from "./components/MemoryMatchGame"
 import ScribblGame from "./components/ScribblGame";
 import About from "./components/About";
+import PasscodeClash from "./components/PasscodeClash/PasscodeClash";
 
-type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl' | 'about';
+type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl' | 'about' | 'passcode';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('menu');
@@ -158,12 +159,19 @@ function App() {
             <button type="button" className="menu-btn scribbl-btn" onClick={() => setCurrentView('scribbl')}>
               🎨 FiruDraw Guess Game
             </button>
+            <button type="button" className="menu-btn passcode-btn" onClick={() => setCurrentView('passcode')}>
+              🔐 Passcode Clash
+            </button>
           </div>
           <button type="button" className="about-author-link" onClick={() => setCurrentView('about')}>
-            About Author
+            About Idea & Author
           </button>
         </div>
       );
+    }
+
+    if (currentView === 'passcode') {
+      return <PasscodeClash onBack={() => setCurrentView('menu')} />;
     }
 
     if (currentView === 'about') {

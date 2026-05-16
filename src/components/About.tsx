@@ -13,11 +13,11 @@ export default function About({ onClose }: { onClose: () => void }) {
 
                 <div className="about-body">
                     <p>
-                        Firos Creations was built with a simple idea: games should bring people closer, not push them further apart.
+                        This project was built with a simple idea: games should bring people closer, not push them further apart.
                     </p>
 
                     <p>
-                        Most games today allow you to play instantly against a computer or random strangers. But this platform was intentionally designed differently(not because I dont want too much complexity in code😁). There is no "Play vs Computer" option  because the goal was never just to win a game. The goal was to create a reason to reach out to someone.
+                        Most games today allow you to play instantly against a computer or random strangers. But this platform was intentionally designed differently. There is no "Play vs Computer" option  becuase the goal was nevre just to win a game. The goal was to create a reason to reach out to someone.
                     </p>
 
                     <p>
@@ -26,6 +26,8 @@ export default function About({ onClose }: { onClose: () => void }) {
 
                     <p>
                         This idea came from a deeply personal place. The author went through periods of intense loneliness, emotional heaviness, and moments where it felt like there was nobody to talk to. During those times, one message, one call, or one shared moment could have made a difference.
+                        In my mother tongue, there’s a saying that roughly translates to:
+                            <blockquote>"The heart becomes quieter when another voice enters it."</blockquote>
                     </p>
 
                     <p>
@@ -33,7 +35,7 @@ export default function About({ onClose }: { onClose: () => void }) {
                     </p>
 
                     <p>
-                        Every multiplayer room created here is meant to encourage human connection , between friends, siblings, classmates, coworkers, or even people reconnecting after a long time. Sometimes, a simple game can become the reason a conversation starts again.
+                        So I genuinely believe that "Distance between people is rarely measured in kilometers". Every multiplayer room created here is meant to encourage human connection , between friends, siblings, classmates, coworkers, or even people reconnecting after a long time. Sometimes, a simple game can become the reason a conversation starts again.
                     </p>
 
                     <p>
@@ -41,13 +43,20 @@ export default function About({ onClose }: { onClose: () => void }) {
                     </p>
                 </div>
 
-                <div className="about-contact">
-                    <h3>If you'd like to know me, Let's connect</h3>
-                    <p>
+               <div className="about-contact">
+                <h3>If this project connected with you in any way, let's connect.</h3>
+                <h4>
+                    Whether it's feedback, ideas, collaboration, or just a conversation,
+                    I'd genuinely love to hear from you.
+                </h4>
+                <p>
                         📧 <a href="mailto:firosk7@gmail.com">firosk7@gmail.com</a>
                     </p>
                     <p>
                         📱 <a href="https://instagram.com/firoz18__" target="_blank" rel="noopener noreferrer">@firoz18__</a> on Instagram
+                    </p>
+                    <p>
+                        <a href="https://www.firos.in" target="_blank" rel="noopener noreferrer">firos.in</a>
                     </p>
                 </div>
             </div>

@@ -118,6 +118,34 @@ button,
   box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
 }
 
+.passcode-btn {
+  background: linear-gradient(135deg, #0f1724 0%, #111827 100%);
+  color: #fff;
+}
+
+.passcode-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+/* Passcode lobby polish */
+.pc-lobby {
+  display:flex;
+  justify-content:center;
+  gap:36px;
+  align-items:center;
+  padding:40px 0 20px 0;
+}
+.pc-lobby-col { display:flex; flex-direction:column; gap:12px; align-items:center }
+.pc-lobby-col.join { align-items:flex-start }
+.pc-lobby .large { padding:16px 28px; border-radius:14px; font-size:1.05rem }
+.room-input { padding:12px 14px; border-radius:10px; border:none; background: #0f1724; color:#fff; letter-spacing:0.08em; width:220px }
+.room-input::placeholder { color: rgba(255,255,255,0.5) }
+
+/* Reuse existing toast style if present; ensure high z-index */
+.toast { position:fixed; top:22px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); color:white; padding:12px 20px; border-radius:16px; z-index:12000; box-shadow:0 10px 30px rgba(0,0,0,0.4) }
+
+
 .menu-quote {
   width: min(680px, 100%);
   margin-bottom: 36px;
@@ -1569,22 +1597,25 @@ button,
 
 .about-close-btn {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 16px;
+  top: 18px;
+  left: 18px;
+  padding: 10px 14px;
   border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #0f1724;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  transition: all 0.18s ease;
+  z-index: 9999;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .about-close-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px) scale(1.01);
+  color: #071122;
 }
 
 .about-content {
@@ -2031,3 +2062,56 @@ button,
   0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
 }
+
+/* Passcode Clash styles */
+.passcode-clash {
+  width: 100%;
+  max-width: 900px;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pc-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.pc-setup { display:flex; gap:20px; flex-wrap:wrap; }
+.pc-player { flex:1; min-width:240px; background: rgba(255,255,255,0.04); padding:16px; border-radius:12px; }
+.secret-shown { color: rgba(255,255,255,0.85); margin-top:8px }
+
+.passcode-input { display:flex; gap:10px; align-items:center; margin-top:12px }
+.passcode-input .digit { width:54px; height:64px; font-size:28px; text-align:center; border-radius:10px; border:none; background:rgba(255,255,255,0.95); color:#071122; }
+.passcode-input .digit.locked { background: linear-gradient(135deg,#7c3aed,#4c1d95); color:white; box-shadow:0 8px 24px rgba(124,58,237,0.25); }
+.passcode-input .submit-guess { padding:10px 14px; border-radius:10px; border:none; background:linear-gradient(135deg,#7c3aed,#4c1d95); color:white; cursor:pointer }
+
+.pc-controls { display:flex; gap:12px; align-items:center }
+.pc-play-area { display:flex; gap:20px; flex-wrap:wrap }
+.pc-side { flex:1; min-width:300px; background: rgba(255,255,255,0.04); padding:16px; border-radius:12px }
+.locked-display { display:flex; gap:8px; font-size:22px; margin:10px 0 }
+.locked-display span { width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:rgba(255,255,255,0.06) }
+.locked-display span.locked { background: linear-gradient(135deg,#06b6d4,#7c3aed); color:white; box-shadow:0 8px 20px rgba(0,0,0,0.25) }
+
+.guess-history { margin-top:8px }
+.history-card { display:flex; justify-content:space-between; padding:14px 16px; border-radius:16px; background:rgba(255,255,255,0.06); margin-bottom:10px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 20px 40px rgba(15,23,42,0.08); }
+.history-meta { color:#cbd5e1; font-size:0.92rem; }
+.history-guess span.correct { color:#22c55e; font-weight:700 }
+.history-guess span { display:inline-flex; min-width:20px; justify-content:center; }
+
+.pc-room { display:flex; flex-direction:column; gap:18px; padding:24px; background: linear-gradient(180deg, rgba(15,23,42,0.92), rgba(30,41,59,0.75)); border-radius:28px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 40px 100px rgba(15,23,42,0.32); }
+.pc-room-status { padding:18px 20px; border-radius:20px; background:rgba(15,23,42,0.55); border:1px solid rgba(255,255,255,0.08); color:#f8fafc; font-weight:600; }
+.pc-player-summary { display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pc-player-card { padding:18px; border-radius:22px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); box-shadow:0 18px 40px rgba(15,23,42,0.15); }
+.pc-player-card h4 { margin:0 0 10px; color:#e2e8f0; letter-spacing:0.06em; }
+.pc-player-card div { color:#cbd5e1; }
+.pc-secret-entry { padding:18px; border-radius:22px; background:rgba(255,255,255,0.05); border:1px dashed rgba(255,255,255,0.12); }
+.pc-secret-entry h4 { margin:0 0 10px; color:#f8fafc; }
+.pc-secret-entry p { margin:0; color:#cbd5e1; }
+.pc-win { padding:20px 18px; border-radius:22px; background: linear-gradient(135deg, #0f766e, #16a34a); color:white; text-align:center; box-shadow:0 20px 40px rgba(15,23,42,0.24); }
+.pc-win-message { margin-top:14px; color:#d1fae5; font-weight:700; }
+.error { color:#fecaca; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.22); padding:12px 16px; border-radius:16px; }
+.waiting { padding:16px; background:rgba(255,255,255,0.04); border-radius:16px; color:#e2e8f0; }
