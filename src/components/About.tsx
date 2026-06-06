@@ -17,7 +17,7 @@ export default function About({ onClose }: { onClose: () => void }) {
                     </p>
 
                     <p>
-                        Most games today allow you to play instantly against a computer or random strangers. But this platform was intentionally designed differently. There is no "Play vs Computer" option  becuase the goal was nevre just to win a game. The goal was to create a reason to reach out to someone.
+                        Most games today allow you to play instantly against a computer or random strangers. But this platform was intentionally designed differently. There is no "Play vs Computer" option because the goal was never just to win a game. The goal was to create a reason to reach out to someone.
                     </p>
 
                     <p>

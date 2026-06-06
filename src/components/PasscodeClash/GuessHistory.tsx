@@ -15,7 +15,8 @@ export default function GuessHistory({ items, player1Name, player2Name }: { item
                 {items.length === 0 && <div className="empty">No guesses yet</div>}
                 {items.map((it, idx) => (
                     <div className="history-card" key={idx}>
-                        <div className="history-meta">{label(it.player)} • {new Date(it.ts).toLocaleTimeString()}</div>
+                        <div className="history-meta">{label(it.player)}</div>
+                        {/* <div className="history-meta">{label(it.player)} • {new Date(it.ts).toLocaleTimeString()}</div> */}
                         <div className="history-guess">{it.guess.split('').map((c, i) => (
                             <span key={i} className={it.correctPositions.includes(i) ? 'correct' : ''}>{c}</span>
                         ))}</div>

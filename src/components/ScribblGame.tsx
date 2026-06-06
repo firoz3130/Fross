@@ -40,9 +40,30 @@ const WORDS = [
     'apple', 'banana', 'car', 'house', 'tree', 'sun', 'moon', 'star', 'dog', 'cat',
     'bird', 'fish', 'flower', 'book', 'phone', 'computer', 'chair', 'table', 'door', 'window',
     'mountain', 'river', 'ocean', 'beach', 'forest', 'garden', 'city', 'street', 'bridge', 'castle', 'india', 'guitar', 'piano', 'drum', 'bicycle', 'airplane', 'train', 'bus', 'rocket', 'alien',
-    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash', 'god', 'love', 'heart', 'hate', 'ranbir kapoor', 'firos', 'praharsha', 'somgs', 'bangalore', 'hyderabad',
+    'batman', 'superman', 'spiderman', 'wonderwoman', 'hulk', 'thor', 'ironman', 'captainamerica', 'blackwidow', 'flash', 'god', 'love', 'heart', 'hate', 'firos', 'somgs', 'bangalore', 'hyderabad',
     'keralam', 'telangana', 'mysore', 'karnataka', 'bike', 'scooty', 'car', 'laptop', 'football', 'cricket', 'messi', 'ronaldo', 'kohli', 'gateway', 'taj mahal', 'Pyramids','coconut', 'piano','windows','bicycle','thieves',
-    'pirates','ninja','samurai','vampire','zombie','ghost','witch','wizard','unicorn','dragon','dinosaur','mermaid','fairy','giant','monster','robot','alien','superhero','villain'
+    'pirates','ninja','samurai','vampire','zombie','ghost','witch','wizard','unicorn','dragon','dinosaur','mermaid','fairy','giant','monster','robot','alien','superhero','villain', 'astronaut', 'chef', 'doctor', 'teacher', 'police', 'firefighter', 'farmer', 'detective',
+'king', 'queen', 'prince', 'princess', 'knight', 'pirate ship', 'treasure', 'map',
+'volcano', 'waterfall', 'island', 'desert', 'rainbow', 'cloud', 'lightning', 'tornado',
+'ice cream', 'pizza', 'burger', 'sandwich', 'cake', 'cookie', 'donut', 'popcorn',
+'elephant', 'lion', 'tiger', 'monkey', 'rabbit', 'horse', 'penguin', 'octopus',
+'turtle', 'snake', 'butterfly', 'bee', 'spider', 'frog', 'shark', 'whale',
+'camera', 'television', 'clock', 'lamp', 'mirror', 'toothbrush', 'backpack', 'umbrella',
+'helmet', 'keyboard', 'mouse', 'headphones', 'microphone', 'battery', 'remote', 'fan',
+'football stadium', 'basketball', 'tennis racket', 'chess', 'trophy', 'medal', 'whistle',
+'hospital', 'school', 'library', 'museum', 'airport', 'restaurant', 'hotel', 'market',
+'diamond', 'gold', 'ring', 'necklace', 'crown', 'sword', 'shield', 'bow',
+'candle', 'gift', 'balloon', 'kite', 'yo-yo', 'drone', 'parachute', 'submarine',
+'volleyball', 'badminton', 'skateboard', 'surfboard', 'roller coaster', 'ferris wheel',
+'coffee', 'tea', 'milkshake', 'watermelon', 'pineapple', 'mango', 'strawberry', 'grapes',
+'peacock', 'camel', 'kangaroo', 'panda', 'koala', 'owl', 'eagle', 'parrot',
+'temple', 'mosque', 'church', 'palace', 'statue', 'lighthouse', 'windmill', 'factory',
+'emoji', 'youtube', 'instagram', 'wifi', 'robot arm', 'spaceship', 'time machine',
+'ghost house', 'magic wand', 'crystal ball', 'treasure chest', 'haunted castle', 'homework', 'wifi password', 'selfie', 'hangover', 'traffic jam',
+'toothache', 'alarm clock', 'broken heart', 'first date',
+'procrastination', 'invisible man', 'superpower', 'vacation',
+'roller skating', 'video game', 'streamer', 'influencer',
+'cheating', 'lottery', 'nightmare', 'daydream'
 ];
 
 function generateRoomId() {

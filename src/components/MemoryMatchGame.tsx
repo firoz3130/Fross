@@ -88,12 +88,45 @@ const NUMBER_PAIRS = {
     ]
 };
 
+const HARD_PAIRS = [
+    'Red 1', 'Blue 2', 'Green 3', 'Yellow 4', 'Purple 5', 'Orange 6',
+    'Pink 7', 'Teal 8', 'Coral 9', 'Cyan 10', 'Magenta 11', 'Lime 12',
+    'Indigo 13', 'Violet 14', 'Gold 15', 'Silver 16', 'Bronze 17', 'Maroon 18'
+];
+
+function getColorStyle(colorName: string): { bg: string; text: string } {
+    const colorMap: { [key: string]: { bg: string; text: string } } = {
+        'Red': { bg: '#EF4444', text: '#ffffff' },
+        'Blue': { bg: '#3B82F6', text: '#ffffff' },
+        'Green': { bg: '#10B981', text: '#ffffff' },
+        'Yellow': { bg: '#FBBF24', text: '#1f2937' },
+        'Purple': { bg: '#A855F7', text: '#ffffff' },
+        'Orange': { bg: '#F97316', text: '#ffffff' },
+        'Pink': { bg: '#EC4899', text: '#ffffff' },
+        'Teal': { bg: '#14B8A6', text: '#ffffff' },
+        'Coral': { bg: '#FF6B6B', text: '#ffffff' },
+        'Cyan': { bg: '#06B6D4', text: '#ffffff' },
+        'Magenta': { bg: '#D946EF', text: '#ffffff' },
+        'Lime': { bg: '#84CC16', text: '#1f2937' },
+        'Indigo': { bg: '#4F46E5', text: '#ffffff' },
+        'Violet': { bg: '#7C3AED', text: '#ffffff' },
+        'Gold': { bg: '#D4AF37', text: '#1f2937' },
+        'Silver': { bg: '#C0C0C0', text: '#1f2937' },
+        'Bronze': { bg: '#CD7F32', text: '#ffffff' },
+        'Maroon': { bg: '#800000', text: '#ffffff' },
+    };
+    const color = colorName.split(' ')[0];
+    return colorMap[color] || { bg: '#666666', text: '#ffffff' };
+}
+
 function generateCards(gameMode: GameMode, difficulty: Difficulty): Card[] {
     let pairs: string[][] = [];
-    const gridSize = difficulty === 'easy' ? 16 : 36; // 4x4 = 16, 6x6 = 36
+    const gridSize = difficulty === 'easy' ? 16 : difficulty === 'medium' ? 36 : 36; // 4x4, 6x6, 6x6 for hard too
     const numPairs = gridSize / 2;
 
-    if (gameMode === 'words') {
+    if (difficulty === 'hard') {
+        pairs = HARD_PAIRS.slice(0, numPairs).map(value => [value, value]);
+    } else if (gameMode === 'words') {
         const allSynonymPairs = WORD_PAIRS.synonyms;
         const allAntonymPairs = WORD_PAIRS.antonyms;
         const synonymPairs = allSynonymPairs.slice(0, Math.min(numPairs / 2, allSynonymPairs.length));
@@ -481,9 +514,13 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                         <select value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}>
                             <option value="easy">Easy (4×4 grid, 8 pairs)</option>
                             <option value="medium">Medium (6×6 grid, 18 pairs)</option>
+                            <option value="hard">Hard (6×6 grid, 18 pairs, color + number)</option>
                         </select>
                     </div>
                 </div>
+                {difficulty === 'hard' && (
+                    <p className="hard-mode-note">Hard mode uses color + number matching instead of word or number pairs.</p>
+                )}
 
                 <div className="name-input">
                     <label>Enter your name</label>
@@ -547,6 +584,22 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
     const totalPairs = room.cards.length / 2;
     const matchedCount = room.matchedPairs.length;
 
+    // Helper function to get card styling for hard mode
+    const getCardStyle = (card: Card, isFlipped: boolean, isMatched: boolean) => {
+        if (room.difficulty !== 'hard') {
+            return {
+                background: isMatched ? '#4CAF50' : isFlipped ? '#2196F3' : '#666',
+                color: 'white'
+            };
+        }
+        // Hard mode: use actual colors
+        const { bg, text } = getColorStyle(card.value);
+        return {
+            background: isMatched ? '#4CAF50' : isFlipped ? bg : '#666',
+            color: isMatched ? 'white' : isFlipped ? text : 'white'
+        };
+    };
+
     return (
         <div className="memory-match-game">
             {toast && <div className="toast">{toast}</div>}
@@ -554,7 +607,7 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
 
             <div className="room-card">
                 <p><strong>Room Code:</strong> {roomId}</p>
-                <p><strong>Mode:</strong> {room.gameMode === 'words' ? 'Words' : 'Numbers'} | <strong>Difficulty:</strong> {room.difficulty}</p>
+                <p><strong>Mode:</strong> {room.difficulty === 'hard' ? 'Color + Number' : room.gameMode === 'words' ? 'Words' : 'Numbers'} | <strong>Difficulty:</strong> {room.difficulty}</p>
                 <p><strong>Progress:</strong> {matchedCount}/{totalPairs} pairs matched</p>
                 <p><strong>Current Turn:</strong> {isMyTurn ? 'Your turn!' : `${room.currentPlayer === 1 ? room.player1Name : room.player2Name}'s turn`}</p>
                 <p><strong>{room.player1Name}:</strong> {room.player1Score} pts | <strong>{room.player2Name}:</strong> {room.player2Score} pts</p>
@@ -579,14 +632,15 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                         className={`card-grid grid-${gridSize}`}
                         style={{
                             gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-                            gap: '8px',
+                            gap: gridSize === 4 ? '10px' : '8px',
                             width: '100%',
-                            maxWidth: gridSize === 4 ? 'min(100vw - 32px, 400px)' : 'min(100vw - 32px, 500px)'
+                            maxWidth: gridSize === 4 ? 'min(100vw - 48px, 420px)' : 'min(100vw - 48px, 480px)'
                         }}
                     >
                         {room.cards.map((card) => {
                             const isFlipped = room.flippedCards.includes(card.id);
                             const isMatched = room.matchedPairs.includes(card.pairId);
+                            const { background, color } = getCardStyle(card, isFlipped, isMatched);
                             return (
                                 <div
                                     key={card.id}
@@ -594,17 +648,18 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                                     onClick={() => isMyTurn && flipCard(card.id)}
                                     style={{
                                         aspectRatio: '1',
-                                        background: isMatched ? '#4CAF50' : isFlipped ? '#2196F3' : '#666',
-                                        borderRadius: '8px',
+                                        background,
+                                        borderRadius: '14px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         cursor: isMyTurn && !isFlipped && !isMatched ? 'pointer' : 'default',
-                                        fontSize: gridSize === 4 ? 'clamp(0.8rem, 2.5vw, 1.2rem)' : 'clamp(0.6rem, 1.8vw, 1rem)',
+                                        fontSize: gridSize === 4 ? 'clamp(0.9rem, 2.8vw, 1.3rem)' : 'clamp(0.8rem, 2.2vw, 1.1rem)',
                                         fontWeight: 'bold',
-                                        color: 'white',
+                                        color,
                                         transition: 'all 0.3s ease',
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+                                        boxShadow: isMatched ? '0 6px 16px rgba(76, 175, 80, 0.3)' : isFlipped ? '0 6px 16px rgba(33, 150, 243, 0.3)' : '0 4px 12px rgba(0,0,0,0.2)',
+                                        border: 'none'
                                     }}
                                 >
                                     {isFlipped || isMatched ? card.value : '?'}
