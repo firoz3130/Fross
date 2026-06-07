@@ -1753,6 +1753,39 @@ button,
   letter-spacing: 0.05em;
 }
 
+.about-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.about-highlight-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  transition: transform 0.22s ease, background 0.22s ease;
+}
+
+.about-highlight-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.about-highlight-card h4 {
+  margin: 0 0 10px 0;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.about-highlight-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.7;
+}
+
 .about-body {
   margin-bottom: 32px;
 }
@@ -1767,6 +1800,26 @@ button,
 
 .about-body p:last-child {
   margin-bottom: 0;
+}
+
+.about-callout {
+  margin: 16px 0 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 4px solid #ffd700;
+  border-radius: 18px;
+  padding: 18px 22px;
+  color: rgba(255, 255, 255, 0.96);
+  font-style: italic;
+  line-height: 1.8;
+}
+
+.about-body blockquote {
+  margin: 0 0 22px 0;
+  font-size: 1.05rem;
+  color: #fffbcc;
+  line-height: 1.8;
+  border-left: 3px solid rgba(255, 255, 255, 0.35);
+  padding-left: 16px;
 }
 
 .about-body em {
@@ -1828,6 +1881,10 @@ button,
     font-size: 0.95rem;
     line-height: 1.7;
     margin-bottom: 16px;
+  }
+
+  .about-highlights {
+    grid-template-columns: 1fr;
   }
 
   .about-contact {

@@ -89,9 +89,12 @@ const NUMBER_PAIRS = {
 };
 
 const HARD_PAIRS = [
-    'Red 1', 'Blue 2', 'Green 3', 'Yellow 4', 'Purple 5', 'Orange 6',
-    'Pink 7', 'Teal 8', 'Coral 9', 'Cyan 10', 'Magenta 11', 'Lime 12',
-    'Indigo 13', 'Violet 14', 'Gold 15', 'Silver 16', 'Bronze 17', 'Maroon 18'
+    'Red 1', 'Red 4', 'Red 7',
+    'Blue 2', 'Blue 5', 'Blue 8',
+    'Green 3', 'Green 6', 'Green 9',
+    'Yellow 4', 'Yellow 10', 'Yellow 12',
+    'Purple 5', 'Purple 11', 'Purple 14',
+    'Orange 6', 'Orange 13', 'Orange 16'
 ];
 
 function getColorStyle(colorName: string): { bg: string; text: string } {
@@ -519,7 +522,7 @@ function MemoryMatchGame({ onBack }: MemoryMatchGameProps) {
                     </div>
                 </div>
                 {difficulty === 'hard' && (
-                    <p className="hard-mode-note">Hard mode uses color + number matching instead of word or number pairs.</p>
+                    <p className="hard-mode-note">Hard mode uses exact color + number matching. Red 4 only matches Red 4, not Red 1.</p>
                 )}
 
                 <div className="name-input">
