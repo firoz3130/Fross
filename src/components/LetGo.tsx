@@ -132,9 +132,12 @@ function LetGo({ onBack }: { onBack: () => void }) {
 
     const createBubble = (text: string) => {
         const length = Math.max(12, Math.min(42, text.length));
-        const size = 90 + Math.min(100, length * 3);
-        const left = Math.random() * 70 + 10;
-        const top = Math.random() * 48 + 10;
+        const size = Math.min(140, 90 + Math.min(100, length * 3));
+        
+        // Constrain bubble positions to keep them visible on mobile and desktop
+        const bubblePercent = (size / window.innerWidth) * 100;
+        const left = Math.random() * (100 - bubblePercent * 2) + bubblePercent;
+        const top = Math.random() * 60 + 15;
         const gradient = GRADIENTS[hashText(text) % GRADIENTS.length];
 
         const id = typeof crypto !== "undefined" && "randomUUID" in crypto
