@@ -53,7 +53,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
     const [isMuted, setIsMuted] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const particlesRef = useRef<Particle[]>([]);
-    const rafRef = useRef<number>();
+    const rafRef = useRef<number | undefined>(undefined);
     const popSound = useRef<HTMLAudioElement | null>(null);
     const ambientSound = useRef<HTMLAudioElement | null>(null);
 
