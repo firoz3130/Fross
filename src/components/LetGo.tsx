@@ -8,6 +8,7 @@ type ThoughtBubble = {
     top: number;
     gradient: string;
     isPopping: boolean;
+    animDelay?: number;
 };
 
 type Particle = {
@@ -73,8 +74,10 @@ function LetGo({ onBack }: { onBack: () => void }) {
 
     useEffect(() => {
         if (!ambientSound.current) return;
+        ambientSound.current.muted = isMuted;
         if (isMuted) {
             ambientSound.current.pause();
+            ambientSound.current.currentTime = 0;
         } else {
             ambientSound.current.play().catch(() => { });
         }
@@ -133,7 +136,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
     const createBubble = (text: string) => {
         const length = Math.max(12, Math.min(42, text.length));
         const size = Math.min(140, 90 + Math.min(100, length * 3));
-        
+
         // Constrain bubble positions to keep them visible on mobile and desktop
         const bubblePercent = (size / window.innerWidth) * 100;
         const left = Math.random() * (100 - bubblePercent * 2) + bubblePercent;
@@ -144,6 +147,9 @@ function LetGo({ onBack }: { onBack: () => void }) {
             ? crypto.randomUUID()
             : `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
+        // deterministic animation delay (pure function of id)
+        const animDelay = (hashText(id) % 300) / 100; // 0 - 2.99s
+
         return {
             id,
             text,
@@ -152,6 +158,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
             top,
             gradient,
             isPopping: false,
+            animDelay,
         };
     };
 
@@ -184,7 +191,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
             popSound.current.currentTime = 0;
             popSound.current.play().catch(() => { });
         }
-        const nextFeedback = FEEDBACK_MESSAGES[Math.floor(Math.random() * FEEDBACK_MESSAGES.length)];
+        const nextFeedback = FEEDBACK_MESSAGES[hashText(text) % FEEDBACK_MESSAGES.length];
         setFeedback(nextFeedback);
         window.setTimeout(() => setFeedback(""), 4300);
     };
@@ -198,7 +205,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
         }
 
         triggerParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, gradient);
-        const nextFeedback = FEEDBACK_MESSAGES[Math.floor(Math.random() * FEEDBACK_MESSAGES.length)];
+        const nextFeedback = FEEDBACK_MESSAGES[hashText(id) % FEEDBACK_MESSAGES.length];
         setFeedback(nextFeedback);
         window.setTimeout(() => setFeedback(""), 4300);
 
@@ -269,7 +276,7 @@ function LetGo({ onBack }: { onBack: () => void }) {
                                 top: `${bubble.top}%`,
                                 background: bubble.gradient,
                                 animationDuration: `${10 + (bubble.size / 10)}s`,
-                                animationDelay: `${Math.random() * 3}s`,
+                                animationDelay: `${bubble.animDelay}s`,
                             }}
                             onClick={(event) => {
                                 const rect = event.currentTarget.getBoundingClientRect();

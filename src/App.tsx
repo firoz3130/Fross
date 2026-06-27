@@ -16,11 +16,12 @@ import { sounds } from "./logic/sound";
 import NumberGuessGame from "./components/NumberGuessGame";
 import MemoryMatchGame from "./components/MemoryMatchGame"
 import ScribblGame from "./components/ScribblGame";
+import HangmanGame from "./components/HangmanGame";
 import About from "./components/About";
 import LetGo from "./components/LetGo";
 import PasscodeClash from "./components/PasscodeClash/PasscodeClash";
 
-type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl' | 'letgo' | 'about' | 'passcode';
+type View = 'menu' | 'crossword' | 'numberGuess' | 'memoryMatch' | 'scribbl' | 'letgo' | 'hangman' | 'about' | 'passcode';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('menu');
@@ -157,6 +158,9 @@ function App() {
             <button type="button" className="menu-btn memory-btn" onClick={() => setCurrentView('memoryMatch')}>
               🧠 Memory Match Challenge
             </button>
+            <button type="button" className="menu-btn hangman-btn" onClick={() => setCurrentView('hangman')}>
+              🪓 Hangman Classic
+            </button>
             <button type="button" className="menu-btn letgo-btn" onClick={() => setCurrentView('letgo')}>
               🕊️ Let Go
             </button>
@@ -192,6 +196,10 @@ function App() {
 
     if (currentView === 'scribbl') {
       return <ScribblGame onBack={() => setCurrentView('menu')} />;
+    }
+
+    if (currentView === 'hangman') {
+      return <HangmanGame onBack={() => setCurrentView('menu')} />;
     }
 
     if (currentView === 'letgo') {
