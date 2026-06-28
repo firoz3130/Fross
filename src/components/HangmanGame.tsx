@@ -239,10 +239,10 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                 </div>
 
                 <section className="hangman-info-panel">
-                    <div>
+                    {/* <div>
                         <p className="hangman-label">Category</p>
                         <h2>{category || "Loading..."}</h2>
-                    </div>
+                    </div> */}
                     <div className="hangman-difficulty-row" role="group" aria-label="Difficulty selector">
                         {Object.entries(DIFFICULTY_LABELS).map(([key, label]) => (
                             <button
@@ -258,8 +258,13 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                 </section>
 
                 <div className="hangman-card">
+                    
                     <div className="hangman-display">
                         <div className="hangman-word-card">
+                            <div>
+                        <p className="hangman-label">Category</p>
+                        <h2>{category || "Loading..."}</h2>
+                    </div>
                             <p className="hangman-label">Guess the word</p>
                             {renderWord()}
                         </div>
@@ -323,7 +328,7 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                     <div className="hangman-modal-icon">{won ? "🎉" : "☠️"}</div>
                     <h2 id="hangman-modal-title">{won ? "You Won!" : "Game Over"}</h2>
                     <p>{won ? "Nice work!" : "The word was:"}</p>
-                    <p className="hangman-answer">{word}</p>
+                    <p className="hangman-answer">🐣{word}🐣</p>
                     <button type="button" className="play-again-btn" onClick={() => startNewGame(difficulty)}>
                         Play Again
                     </button>

@@ -506,13 +506,13 @@ button,
 .hangman-post,
 .hangman-beam,
 .hangman-rope {
-  stroke: #5b4228;
+  stroke: #a67c52;
   stroke-width: 10;
   stroke-linecap: round;
 }
 
 .hangman-part {
-  stroke: #4c3420;
+  stroke: #7b5c42;
   stroke-width: 10;
   opacity: 0;
   transition: opacity 0.35s ease, transform 0.35s ease;

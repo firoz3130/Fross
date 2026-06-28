@@ -29,7 +29,7 @@ async function getAllPlayerNames() {
     });
   });
 
-  console.log(players);
+  // console.log(players);
   return players;
 }
 
