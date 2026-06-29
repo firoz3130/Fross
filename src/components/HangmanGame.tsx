@@ -55,12 +55,17 @@ function getRandomItem<T>(items: T[]): T {
 }
 
 function chooseGameWord(difficulty: Difficulty) {
-    const categoriesWithWords = HANGMAN_CATEGORIES.map((category) => ({
-        category,
-        words: category.words.filter(difficultyFilter[difficulty]),
-    })).filter((entry) => entry.words.length > 0);
+    const categoriesWithWords = HANGMAN_CATEGORIES.map((category) => {
+        const wordsList = category.words || [];
+        const filtered = wordsList.filter((w: any) => {
+            const wordStr = typeof w === "string" ? w : w.word;
+            return difficultyFilter[difficulty](wordStr);
+        });
+        return { category, words: filtered };
+    }).filter((entry) => entry.words.length > 0);
 
-    const entry = getRandomItem(categoriesWithWords.length ? categoriesWithWords : HANGMAN_CATEGORIES.map((category) => ({ category, words: category.words })));
+    const fallback = HANGMAN_CATEGORIES.map((category) => ({ category, words: category.words }));
+    const entry = getRandomItem(categoriesWithWords.length ? categoriesWithWords : fallback);
     const word = getRandomItem(entry.words.length ? entry.words : entry.category.words);
     return { categoryName: entry.category.name, word };
 }
@@ -69,9 +74,12 @@ function HangmanGame({ onBack }: HangmanGameProps) {
     const [difficulty, setDifficulty] = useState<Difficulty>("easy");
     const [category, setCategory] = useState<string>("");
     const [word, setWord] = useState<string>("");
+    const [currentHints, setCurrentHints] = useState<string[]>([]);
     const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
     const [mistakes, setMistakes] = useState(0);
     const [remainingHints, setRemainingHints] = useState(3);
+    const [hintIndex, setHintIndex] = useState(0);
+    const [toast, setToast] = useState<string | null>(null);
     const [stats, setStats] = useState<HangmanStats>(getStoredStats());
     const [gameOver, setGameOver] = useState(false);
     const [won, setWon] = useState(false);
@@ -161,10 +169,20 @@ function HangmanGame({ onBack }: HangmanGameProps) {
     function startNewGame(overriddenDifficulty: Difficulty = difficulty) {
         const chosen = chooseGameWord(overriddenDifficulty);
         setCategory(chosen.categoryName);
-        setWord(chosen.word);
+        if (typeof chosen.word === "string") {
+            setWord(chosen.word);
+            setCurrentHints([]);
+        } else if (chosen.word && (chosen.word as any).word) {
+            setWord((chosen.word as any).word);
+            setCurrentHints(Array.isArray((chosen.word as any).hints) ? (chosen.word as any).hints : []);
+        } else {
+            setWord(String(chosen.word));
+            setCurrentHints([]);
+        }
         setGuessedLetters([]);
         setMistakes(0);
         setRemainingHints(3);
+        setHintIndex(0);
         setGameOver(false);
         setWon(false);
         setResultRecorded(false);
@@ -182,15 +200,20 @@ function HangmanGame({ onBack }: HangmanGameProps) {
 
     function handleHint() {
         if (remainingHints <= 0 || showGameOver) return;
-        const hidden = word
-            .split("")
-            .filter((letter) => letter !== " " && !guessedLetters.includes(letter));
 
-        if (!hidden.length) return;
+        if (currentHints && currentHints.length > 0 && hintIndex < currentHints.length) {
+            const next = currentHints[hintIndex];
+            setToast(next);
+            setHintIndex((i) => i + 1);
+            setRemainingHints((c) => Math.max(0, c - 1));
+            window.setTimeout(() => setToast(null), 6000);
+            return;
+        }
 
-        const nextLetter = hidden[Math.floor(Math.random() * hidden.length)];
-        setGuessedLetters((current) => [...current, nextLetter]);
-        setRemainingHints((current) => current - 1);
+        const fallback = `Category: ${category}`;
+        setToast(fallback);
+        setRemainingHints((c) => Math.max(0, c - 1));
+        window.setTimeout(() => setToast(null), 6000);
     }
 
     function renderWord() {
@@ -258,13 +281,13 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                 </section>
 
                 <div className="hangman-card">
-                    
+
                     <div className="hangman-display">
                         <div className="hangman-word-card">
                             <div>
-                        <p className="hangman-label">Category</p>
-                        <h2>{category || "Loading..."}</h2>
-                    </div>
+                                <p className="hangman-label">Category</p>
+                                <h2>{category || "Loading..."}</h2>
+                            </div>
                             <p className="hangman-label">Guess the word</p>
                             {renderWord()}
                         </div>
@@ -286,7 +309,18 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                     </div>
 
                     <div className="hangman-controls">
-                        <div className="hangman-hint-row">
+                        <div className="hangman-hint-row" style={{ position: "relative" }}>
+                            {/* {hintIndex > 0 || toast ? (
+                                <div className="hangman-hint-toast" role="status" aria-live="polite">
+                                    {toast}
+                                </div>
+                            ) : null} */}
+                            {toast && (
+                        <div className="hangman-hint-toast" role="status" aria-live="polite">
+                            {toast}
+                        </div>
+                    )}
+
                             <button
                                 type="button"
                                 className="hint-btn"
@@ -322,6 +356,8 @@ function HangmanGame({ onBack }: HangmanGameProps) {
                     </div>
                 </div>
             </div>
+
+            {/* {toast && <div className="toast" role="status" aria-live="polite">{toast}</div>} */}
 
             <div className={`hangman-modal-overlay ${showGameOver ? "visible" : ""}`}>
                 <div className="hangman-modal" role="dialog" aria-modal="true" aria-labelledby="hangman-modal-title">

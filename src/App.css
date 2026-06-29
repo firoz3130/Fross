@@ -763,6 +763,21 @@ button,
 /* Reuse existing toast style if present; ensure high z-index */
 .toast { position:fixed; top:22px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); color:white; padding:12px 20px; border-radius:16px; z-index:12000; box-shadow:0 10px 30px rgba(0,0,0,0.4) }
 
+.hangman-hint-row { position: relative; }
+.hangman-hint-toast {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -46px;
+  background: #16a34a; /* green */
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  z-index: 2000;
+  font-weight: 700;
+}
+
 
 .menu-quote {
   width: min(680px, 100%);

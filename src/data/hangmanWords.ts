@@ -1,15 +1,18 @@
-export type HangmanCategory = {
+export type HangmanWord = {
+	word: string;
+	hints: [string, string, string];
+	difficulty?: "easy" | "medium" | "hard";
+};
+
+export type HangmanCategoryRaw = {
 	name: string;
 	words: string[];
 };
 
-export const HANGMAN_CATEGORIES: HangmanCategory[] = [
-    {
+const RAW_HANGMAN_CATEGORIES: HangmanCategoryRaw[] = [
+	{
 		name: "DEV TEST DatabaseV1.1",
-		words: [
-			"FIROS","FIRU"
-			
-		],
+		words: ["FIROS", "FIRU"],
 	},
 	{
 		name: "Animals",
@@ -117,117 +120,120 @@ export const HANGMAN_CATEGORIES: HangmanCategory[] = [
 		],
 	},
 	{
-  name: "Movies",
-  words: [
-    // Hollywood
-    "INCEPTION",
-    "TITANIC",
-    "AVATAR",
-    "GLADIATOR",
-    "JURASSICPARK",
-    "INTERSTELLAR",
-    "FORRESTGUMP",
-    "ALIEN",
-    "SCOOBYDOO",
-    "SPIDERMAN",
-    "STARWARS",
-    "BATMAN",
-    "CASINO",
-    "TAXI",
-    "JOKER",
+		name: "Movies",
+		words: [
+			// Hollywood
+			"INCEPTION",
+			"TITANIC",
+			"AVATAR",
+			"GLADIATOR",
+			"JURASSICPARK",
+			"INTERSTELLAR",
+			"FORRESTGUMP",
+			"ALIEN",
+			"SCOOBYDOO",
+			"SPIDERMAN",
+			"STARWARS",
+			"BATMAN",
+			"CASINO",
+			"TAXI",
+			"JOKER",
 
-    // Malayalam
-    "DRISHYAM",
-    "MANICHITRATHAZHU",
-    "PREMAM",
-    "BANGALOREDAYS",
-    "LUCIFER",
-    "AAVESHAM",
-    "ROMANCHAM",
-    "MINNALMURALI",
-    "KUMBALANGINIGHTS",
-    "JANEMAN",
-    "HRIDAYAM",
-    "RORSCHACH",
-    "ANDROIDKUNJAPPAN",
-    "THALLUMAALA",
-    "KAPPELA",
-    "KALI",
-    "KADAL",
-    "ADAM",
-    "OTHAPPAN",
-    // Hindi
-    "SHOLAY",
-    "LAGAAN",
-    "DANGAL",
-    "PK",
-    "THREEIDIOTS",
-    "BAJRANGIBHAIJAAN",
-    "KABHIKHUSHIKABHIGHAM",
-    "CHENNAIEXPRESS",
-    "PATHAAN",
-    "JAWAN",
-    "ANIMAL",
-    "BARFI",
-    "MainVaapasAaunga",
-    "BRAHMASTRA",
-    "STREE",
-    "WAR",
-    "RAAZI",
-    "ANDHADHUN",
-    
+			// Malayalam
+			"DRISHYAM",
+			"MANICHITRATHAZHU",
+			"PREMAM",
+			"BANGALOREDAYS",
+			"LUCIFER",
+			"AAVESHAM",
+			"ROMANCHAM",
+			"MINNALMURALI",
+			"KUMBALANGINIGHTS",
+			"JANEMAN",
+			"HRIDAYAM",
+			"RORSCHACH",
+			"ANDROIDKUNJAPPAN",
+			"THALLUMAALA",
+			"KAPPELA",
+			"KALI",
+			"KADAL",
+			"ADAM",
+			"OTHAPPAN",
+			// Hindi
+			"SHOLAY",
+			"LAGAAN",
+			"DANGAL",
+			"PK",
+			"THREEIDIOTS",
+			"BAJRANGIBHAIJAAN",
+			"KABHIKHUSHIKABHIGHAM",
+			"CHENNAIEXPRESS",
+			"PATHAAN",
+			"JAWAN",
+			"ANIMAL",
+			"BARFI",
+			"MainVaapasAaunga",
+			"BRAHMASTRA",
+			"STREE",
+			"WAR",
+			"RAAZI",
+			"ANDHADHUN",
 
-    // Telugu
-    "BAHUBALI",
-    "PUSHPA",
-    "RRR",
-    "MAGADHEERA",
-    "ARJUNREDDY",
-    "SALAAR",
-    "HANUMAN",
-    "EEGA",
-    "POKHIRI",
-    "ATHADU",
-    "GABBARSINGH",
-    "JERSEY",
-    "HITHREE",
-    "FIDAA",
-    "SHYAMSINGHAROY",
-    "NINNUKORI",
-    "ASHTACHAMMA",
-    "DASARA",
-    "ARYA",
-    "VARSHAM",
-    "DARLING",
-    "MIRCHI",
-    "MUNNA",
-    "SAAHO",
-    "RACEGURRAM",
-    "VEDAM",
-    "DESAMUDURU",
-    "SITARAMAM",
+			// Telugu
+			"BAHUBALI",
+			"PUSHPA",
+			"RRR",
+			"MAGADHEERA",
+			"ARJUNREDDY",
+			"SALAAR",
+			"HANUMAN",
+			"EEGA",
+			"POKHIRI",
+			"ATHADU",
+			"GABBARSINGH",
+			"JERSEY",
+			"HITHREE",
+			"FIDAA",
+			"SHYAMSINGHAROY",
+			"NINNUKORI",
+			"ASHTACHAMMA",
+			"DASARA",
+			"ARYA",
+			"VARSHAM",
+			"DARLING",
+			"MIRCHI",
+			"MUNNA",
+			"SAAHO",
+			"RACEGURRAM",
+			"VEDAM",
+			"DESAMUDURU",
+			"SITARAMAM",
 
-    // Tamil
-    "ROBOT",
-    "SIVAJI",
-    "KABALI",
-    "JAILER",
-    "VIKRAM",
-    "LEO",
-    "MASTER",
-    "KAITHI",
-    "SOORARAIPOTTRU",
-    "ASURAN",
-    "THUPPAKKI",
-    "PETTA",
-    "MERSAL"
-  ],
-},
+			// Tamil
+			"ROBOT",
+			"SIVAJI",
+			"KABALI",
+			"JAILER",
+			"VIKRAM",
+			"LEO",
+			"MASTER",
+			"KAITHI",
+			"SOORARAIPOTTRU",
+			"ASURAN",
+			"THUPPAKKI",
+			"PETTA",
+			"MERSAL",
+		],
+	},
 	{
 		name: "Sports",
 		words: [
-            "RONALDO","MESSI","MBAPPE","NEYMAR",
-            "KOHLI","DHONI",
+			"RONALDO",
+			"MESSI",
+			"MBAPPE",
+			"NEYMAR",
+			"KOHLI",
+			"DHONI",
 			"BASKETBALL",
 			"FOOTBALL",
 			"CRICKET",
@@ -258,6 +264,111 @@ export const HANGMAN_CATEGORIES: HangmanCategory[] = [
 			"KARATE",
 			"TABLETOP",
 			"LACROSSE",
+		],
+	},
+	{
+		name: "Sports-Person",
+		words: [
+			// Football (Soccer)
+			"RONALDO",
+			"MESSI",
+			"MBAPPE",
+			"NEYMAR",
+			"HAALAND",
+			"VINICIUS",
+			"MODRIC",
+			"BENZEMA",
+			"SALAH",
+			"DEBRUYNE",
+			"LEWANDOWSKI",
+			"KANE",
+			"BELLINGHAM",
+			"YAMAL",
+			"PEDRI",
+			"SUAREZ",
+			"ZIDANE",
+			"RONALDINHO",
+			"BECKHAM",
+			"PELE",
+			"MARADONA",
+			"XAVI",
+			"INIESTA",
+
+			// Cricket
+			"KOHLI",
+			"DHONI",
+			"ROHIT",
+			"BUMRAH",
+			"SACHIN",
+			"GILL",
+			"PANT",
+			"JADEJA",
+			"SMITH",
+			"WARNER",
+			"CUMMINS",
+			"STARC",
+			"BABAR",
+			"RIZWAN",
+			"ROOT",
+			"STOKES",
+			"WILLIAMSON",
+			"GAYLE",
+			"MALINGA",
+
+			// Formula 1
+			"HAMILTON",
+			"VERSTAPPEN",
+			"LECLERC",
+			"NORRIS",
+			"PIASTRI",
+			"RUSSELL",
+			"ALONSO",
+			"SAINZ",
+			"VETTEL",
+			"SCHUMACHER",
+			"SENNA",
+			"PROST",
+			"RAIKKONEN",
+			"BUTTON",
+			"RICCIARDO",
+
+			// Tennis
+			"DJOKOVIC",
+			"NADAL",
+			"FEDERER",
+			"ALCARAZ",
+			"SINNER",
+			"SWIATEK",
+			"GAUFF",
+			"OSAKA",
+			"SERENA",
+			"VENUS",
+
+			// Basketball
+			"JORDAN",
+			"LEBRON",
+			"CURRY",
+			"KOBE",
+			"DURANT",
+			"GIANNIS",
+			"JOKIC",
+			"DONCIC",
+
+			// Athletics
+			"BOLT",
+			"PHELPS",
+			"BILES",
+			"DUPLANTIS",
+
+			// MMA / Boxing
+			"MCGREGOR",
+			"KHABIB",
+			"JONES",
+			"ADESANYA",
+			"TYSON",
+			"ALI",
+			"MAYWEATHER",
+			"PACQUIAO",
 		],
 	},
 	{
@@ -331,3 +442,34 @@ export const HANGMAN_CATEGORIES: HangmanCategory[] = [
 		],
 	},
 ];
+
+function generateHints(
+	word: string,
+	category: string,
+): [string, string, string] {
+	const cleanedLen = word.replace(/\s+/g, "").length;
+	const broad = category;
+	const middle = (() => {
+		const c = category.toLowerCase();
+		if (c.includes("animal")) return "A creature or animal";
+		if (c.includes("fruit")) return "An edible sweet fruit";
+		if (c.includes("country")) return "A sovereign nation";
+		if (c.includes("movie")) return "A film title";
+		if (c.includes("sport") || c.includes("sports-person"))
+			return "Related to sports";
+		if (c.includes("program")) return "A tech or coding term";
+		if (c.includes("house")) return "A common household object";
+		return `Related to ${category}`;
+	})();
+	const specific = `${cleanedLen} letters long`;
+	return [broad, middle, specific];
+}
+
+export const HANGMAN_CATEGORIES: { name: string; words: HangmanWord[] }[] =
+	RAW_HANGMAN_CATEGORIES.map((cat) => ({
+		name: cat.name,
+		words: cat.words.map((w) => ({
+			word: w,
+			hints: generateHints(w, cat.name),
+		})),
+	}));
